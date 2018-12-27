@@ -13,6 +13,8 @@ stages:
 MA1-test:
   script:
     - echo "Generic test script"
+    - cd MA1
+    - make test
   stage: test
   tags:
     - linux docker
