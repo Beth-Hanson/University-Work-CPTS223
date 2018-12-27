@@ -16,6 +16,7 @@ MA1-build:
   script:
     - cd MA1
     - make build
+  allow_failure: true
   tags:
     - linux docker
 
