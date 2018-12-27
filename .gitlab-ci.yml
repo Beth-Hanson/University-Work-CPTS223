@@ -2,8 +2,8 @@
 image: alpine:latest
 
 before_script:
-    - echo "Initializing Environment"
-    - echo " This system uses Alpine Linux because it's small and efficient"
+    - echo "Initializing Environment" >> /dev/null
+    - echo " This system uses Alpine Linux because it's small and efficient" >> /dev/null
     - echo " For info on Alpine Linux, go to alpinelinux.org"
     - echo "http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
     - apk add --update --no-cache less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev lcov >> /dev/null
@@ -39,4 +39,4 @@ MA1-coverage:
     - linux docker
   artifacts:
     paths:
-      - coverage_report
+      - MA1/coverage_report

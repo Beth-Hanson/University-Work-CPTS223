@@ -54,6 +54,7 @@ coverage: build test
 	genhtml $(LCOVINFO) --output-directory $(COVHTMLDIR)
 	@echo "Run 'make clean' to remove all of these temp files"
 	@echo ">>> Go into the $(COVHTMLDIR) and load index.html with browser for report"
+	@echo ">>> If this is the GitLab server, there should be artifacts to look at on the right for this testing coverage job"
 	
 
 # If you call "make clean" it will remove the built program
