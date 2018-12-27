@@ -12,6 +12,7 @@ stages:
     - test
 
 MA1-build:
+  stage: build
   script:
     - cd MA1
     - make build
@@ -19,9 +20,9 @@ MA1-build:
     - linux docker
 
 MA1-test:
+  stage: test
   script:
     - cd MA1
     - make test
-  stage: test
   tags:
     - linux docker
