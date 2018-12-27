@@ -9,16 +9,10 @@ stages:
     - test
 
 
-.tests:
+MA1-test:
   script:
     - echo "Generic test script"
   stage: test
   tags:
     - linux
     - docker
-
-
-MA1-test:
-  extends: .tests
-  script:
-    - echo "Testing MA1"
