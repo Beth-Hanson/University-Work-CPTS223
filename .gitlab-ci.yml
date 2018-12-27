@@ -1,0 +1,24 @@
+
+image: alpine:latest
+
+before_script:
+    - echo "Initializing Environment"
+
+stages:
+    - build
+    - test
+
+
+.tests:
+  script:
+    - echo "Generic test script"
+  stage: test
+  tags:
+    - linux
+    - docker
+
+
+MA1-test:
+  extends: .tests
+  script:
+    - echo "Testing MA1"
