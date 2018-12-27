@@ -14,5 +14,4 @@ MA1-test:
     - echo "Generic test script"
   stage: test
   tags:
-    - linux
-    - docker
+    - linux docker
