@@ -1,2 +1,19 @@
+# .gitignore file
+#  This file tells Git what kinds of files or directories to ignore
+#  These are essentially just string and wildcard matches
+#  Anything matched here won't show up in 'git status' as something to commit
 
+# Ignore vim swap (temp) files
 *.swp
+
+# Ignore code coverage temp files
+*.gcov
+*.gcno
+*.gcda
+
+# Ignores things in "bin" (binary) directories
+*/bin/*
+
+# Ignores our HTML testing coverage directory
+coverage.info
+*/coverage_report/*

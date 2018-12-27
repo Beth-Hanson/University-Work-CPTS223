@@ -11,6 +11,7 @@ stages:
     - build
     - test
 
+# MA1 is the Hello World assignment
 MA1-build:
   stage: build
   script:
@@ -27,3 +28,14 @@ MA1-test:
     - make test
   tags:
     - linux docker
+
+MA1-coverage:
+  stage: test
+  script:
+    - cd MA1
+    - make coverage
+  tags:
+    - linux docker
+  artifacts:
+    paths:
+      - coverage_report
