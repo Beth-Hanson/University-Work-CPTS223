@@ -4,7 +4,7 @@ image: alpine:latest
 before_script:
     - echo "Initializing Environment" >> /dev/null
     - echo " This system uses Alpine Linux because it's small and efficient" >> /dev/null
-    - echo " For info on Alpine Linux, go to alpinelinux.org"
+    - echo " For info on Alpine Linux, go to alpinelinux.org" >> /dev/null
     - echo "http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
     - apk add --update --no-cache less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev lcov >> /dev/null
 
@@ -20,7 +20,8 @@ MA1-build:
     - make build
   allow_failure: true
   tags:
-    - linux docker
+    - linux
+    - docker
 
 MA1-test:
   stage: test
@@ -28,7 +29,8 @@ MA1-test:
     - cd MA1
     - make test
   tags:
-    - linux docker
+    - linux
+    - docker
 
 MA1-coverage:
   stage: test
@@ -36,7 +38,8 @@ MA1-coverage:
     - cd MA1
     - make coverage
   tags:
-    - linux docker
+    - linux
+    - docker
   artifacts:
     paths:
       - MA1/coverage_report
