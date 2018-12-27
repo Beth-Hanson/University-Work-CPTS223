@@ -5,7 +5,8 @@ before_script:
     - echo "Initializing Environment"
     - echo " This system uses Alpine Linux because it's small and efficient"
     - echo " For info on Alpine Linux, go to alpinelinux.org"
-    - apk add less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev lcov >> /dev/null
+    - echo "http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+    - apk add --update --no-cache less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev lcov >> /dev/null
 
 stages:
     - build
