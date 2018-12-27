@@ -4,7 +4,6 @@
 
 #include "helloworld.h"
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 #include <sstream>      // stringstream stream buffer
 
