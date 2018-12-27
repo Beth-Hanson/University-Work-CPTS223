@@ -3,7 +3,7 @@ image: alpine:latest
 
 before_script:
     - echo "Initializing Environment"
-    - apk add less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils
+    - apk add less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev
 
 stages:
     - build
