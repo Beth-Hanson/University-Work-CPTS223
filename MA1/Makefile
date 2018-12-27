@@ -49,7 +49,7 @@ test: build
 #  genhtml comes with lcov
 coverage: build test
 	@echo "Generating code coverage report on unit testing"
-	gcov $(TESTNAME).cpp
+	gcov --relative-only $(TESTNAME).cpp
 	lcov --no-external --capture --directory . --output-file $(LCOVINFO)
 	genhtml $(LCOVINFO) --output-directory $(COVHTMLDIR)
 	@echo "Run 'make clean' to remove all of these temp files"
