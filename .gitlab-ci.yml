@@ -3,16 +3,23 @@ image: alpine:latest
 
 before_script:
     - echo "Initializing Environment"
+    - echo " This system uses Alpine Linux because it's small and efficient"
+    - echo " For info on Alpine Linux, go to alpinelinux.org"
     - apk add less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev >> /dev/null
 
 stages:
     - build
     - test
 
+MA1-build:
+  script:
+    - cd MA1
+    - make build
+  tags:
+    - linux docker
 
 MA1-test:
   script:
-    - echo "Generic test script"
     - cd MA1
     - make test
   stage: test
