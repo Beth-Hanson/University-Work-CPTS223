@@ -2,76 +2,78 @@
  * ListNode.h - Implements a LinkedList Node
  *
  * Adam Carter - 2015
+ * Aaron S. Crandall, 2018 <acrandal@wsu.edu>
  *
  */
 
 #ifndef LIST_NODE_H
 #define LIST_NODE_H
 
-//A list node represents a single "box" inside a lined list.  In this 
-//scheme, the LinkedList is simply a collection of ListNode boxes.
+// A list node represents a single "box" inside a lined list.  In this 
+//  scheme, the LinkedList is simply a collection of ListNode boxes.
 template <typename T>
 class ListNode
 {
 protected:
 
-	//value that our box contains
-	T _value;
-
-	//pointer to next node in the LL sequence
-	ListNode<T> *_next;
+	T _value;           // Value of Templated type that our LL node holds
+	ListNode<T> *_next; // Pointer to next node in the LL sequence
 
 
 public:
 
-	//constructor must accept a default value
+	// Constructor must accept a default value
 	ListNode(const T &value) : _value(value)
 	{
 		_next = nullptr;
 	}
 
+    // Basic empty ListNode Constructor
 	ListNode()
 	{
 		_next = nullptr;
 	}
 
-	//copy constructor prevents premature deletion of next pointer
+	// Copy constructor prevents premature deletion of next pointer
 	ListNode(const ListNode<T> &other)
 	{
+        std::cout << "Copy Constructor invoked" << std::endl;
 		_value = other.getValue();
 		_next = other.getNext();
 	}
 
+
+	// Copy operator allows us to reassign previously created list nodes
+	ListNode<T> &operator=(const ListNode<T> &other)
+	{
+		if (this != &other)
+		{
+			ListNode<T> temp(other);    // Use copy constructor
+			swap(*this, temp);
+		}
+		return *this;
+	}
+
+    // Destructor
 	virtual ~ListNode()
 	{
 		_value = 0;
 		_next = nullptr;
 	}
 
-	//copy operator allows us to reassign previously created list nodes
-	ListNode<T> &operator=(const ListNode<T> &other)
-	{
-		if (this != &other)
-		{
-			ListNode<T> temp(other);
-			swap(*this, temp);
-		}
-		return *this;
-	}
-
-	//returns a pointer to the next list node in the sequence
+	// Returns a pointer to the next list node in the sequence
 	ListNode<T> *getNext()
 	{
 		return _next;
 	}
 
-	//sets the pointer to the next node in the sequence
+	// Sets the pointer to the next node in the sequence
 	void setNext(ListNode<T> *next)
 	{
 		_next = next;
 	}
 
-	//returns the value of the list node
+	// Returns the value of the list node
 	T &getValue()
 	{
 		return _value;
@@ -83,7 +85,7 @@ public:
 		return _value;
 	}
 
-	//sets the value of the current list node
+	// Sets the value of the current list node
 	void setValue(const T &value)
 	{
 		_value = value;

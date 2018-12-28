@@ -40,27 +40,23 @@ private:
 	int _last_accessed_index = 0;               // Tracking accesses for some functions
 	ListNode<T> *_last_accessed_node = nullptr; // Tracking last accessed node for copies
 
-    bool _debug = true;
+    bool _debug = false;                        // debug_on() debug_off() - cout output
 
 //*****************************************************************************
 protected:
-	/*
-	ListNode<T> *getFront()
-	{
-		return _front;
-	}
-  */
-
+    // Returns last node in Linked List
 	ListNode<T> *getEnd()
 	{
 		return _end;
 	}
 
+    // Creates a new node (effectively a Factory interface)
 	virtual ListNode<T> *createNode(T value)
 	{
 		return new ListNode < T > { value };
 	}
 
+    // Wrapped method to properly delete a passed in node
 	virtual void deleteNode(ListNode<T> *node)
 	{
 		delete node;
@@ -146,9 +142,11 @@ public:
   //  Other initializers are done at the class level
 	LinkedList()
 	{
-        cout << " [x] Basic constructor called." << endl;
 		_front = nullptr;
 		_end = _front;
+        _debug = false;     // Default is no detailed out - see debug_on()
+        if(_debug)
+            { cout << " [x] Basic constructor called." << endl; }
 	}
 
 //***************************************************************************//
@@ -158,7 +156,8 @@ public:
 	//  MA TODO: Implement!
 	LinkedList(const LinkedList<T> &other)
 	{
-		cout << " [x] Copy Constructor executed. " << endl;
+        if(_debug)
+		    { cout << " [x] Copy Constructor executed. " << endl; }
 		// Copy every element in other to ourselves
 	}
 
@@ -167,7 +166,8 @@ public:
 	//  MA TODO: Implement!
 	LinkedList(LinkedList<T> &&other)
 	{
-		cout << " [x] Move Constructor executed. " << endl;
+        if(_debug)
+		    { cout << " [x] Move Constructor executed. " << endl; }
 		// Copy the pointers within other to ourselves
 		//  Also copy their class varibles (_last_accessed_index, etc)
 
@@ -179,7 +179,8 @@ public:
 	//  MA TODO: Implement!
 	LinkedList(initializer_list<T> values)
 	{
-		cout << " [x] Initializer List Constructor executed. " << endl;
+        if(_debug)
+		   { cout << " [x] Initializer List Constructor executed. " << endl; }
 		// Add a copy of every element in values to ourselves
 	}
 
@@ -188,7 +189,8 @@ public:
 	//  MA TODO: Implement!
 	virtual ~LinkedList()
 	{
-		cout << "  [x] LinkedList Destructor executed. " << endl;
+        if(_debug)
+            { cout << "  [x] LinkedList Destructor executed. " << endl; }
 		// Delete every node in our internal linked list
 	}
 
@@ -197,7 +199,8 @@ public:
 	virtual LinkedList<T> &operator=(const LinkedList<T> &other)
 	{
 		// Note: might want to make sure we don't copy ourselves!
-		cout << " [x] Copy *assignment* operator called. " << endl;
+        if(_debug)
+		    { cout << " [x] Copy *assignment* operator called. " << endl; }
 
 		// Delete our elements
 
@@ -211,7 +214,8 @@ public:
 	//  MA TODO: Implement!
 	virtual LinkedList<T> &operator=(LinkedList<T> &&other)
 	{
-		cout << " [x] Move *assignment* operator called. " << endl;
+        if(_debug)
+		    { cout << " [x] Move *assignment* operator called. " << endl; }
 		// Delete our own elements
 
 		// Grab other data for ourselves
@@ -273,6 +277,7 @@ public:
 	}
 
 
+    // Returns a reference to the element at a given index/location
 	virtual const T &getElementAt(int location) const
 	{
 		return getNodeAtIndex(location)->getValue();
@@ -286,7 +291,7 @@ public:
 	}
 
 
-	// Adds the specified item at the specified index and 
+	// Inserts the specified value in a new Node at the specified index and 
     //  shifts everything else to the "right" by one.
 	virtual void addElementAt(T value, int location)
 	{
