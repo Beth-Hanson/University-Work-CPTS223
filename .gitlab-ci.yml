@@ -43,3 +43,23 @@ MA1-coverage:
   artifacts:
     paths:
       - MA1/coverage_report
+
+# MA2 is the Big Five assignment
+MA2-BigFive-build:
+  stage: build
+  script:
+    - cd MA2-BigFive
+    - make build
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+
+MA2-BigFive-test:
+  stage: test
+  script:
+    - cd MA2-BigFive
+    - make test
+  tags:
+    - linux
+    - docker
