@@ -37,19 +37,18 @@ public:
 	// Copy constructor prevents premature deletion of next pointer
 	ListNode(const ListNode<T> &other)
 	{
-        std::cout << "Copy Constructor invoked" << std::endl;
 		_value = other.getValue();
 		_next = other.getNext();
 	}
 
 
 	// Copy operator allows us to reassign previously created list nodes
-	ListNode<T> &operator=(const ListNode<T> &other)
+	virtual ListNode<T> &operator=(const ListNode<T> &other)
 	{
 		if (this != &other)
 		{
-			ListNode<T> temp(other);    // Use copy constructor
-			swap(*this, temp);
+            _value = other.getValue();
+            _next = other.getNext();
 		}
 		return *this;
 	}
@@ -62,7 +61,7 @@ public:
 	}
 
 	// Returns a pointer to the next list node in the sequence
-	ListNode<T> *getNext()
+	ListNode<T> *getNext() const
 	{
 		return _next;
 	}

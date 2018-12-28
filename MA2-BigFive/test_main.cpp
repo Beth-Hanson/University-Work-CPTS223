@@ -14,7 +14,7 @@
 using namespace testing;
 
 //**************** Start of ListNode Tests ********************//
-TEST(ListNode, GetValue)
+TEST(ListNode, SetAndGetValue)
 {
     // Assemble
     ListNode<int> node;
@@ -32,13 +32,26 @@ TEST(ListNode, CopyConstructor)
     nodeA.setValue(testValue);
     // Act
     ListNode<int> nodeB(nodeA);    // Invokes copy constructor
-    //nodeB.setValue(20);
-    //nodeB = nodeA;
+    // Assert
+    ASSERT_EQ(nodeA.getValue(), nodeB.getValue());
+}
+
+TEST(ListNode, CopyOperator)
+{
+    // Assemble
+    ListNode<int> nodeA;
+    int testValue = 13;
+    nodeA.setValue(testValue);
+    ListNode<int> nodeB;
+    // Act
+    nodeB = nodeA;    // Invokes copy operator
     // Assert
     ASSERT_EQ(nodeA.getValue(), nodeB.getValue());
 }
 //****************** End of ListNode Tests ********************//
 
+
+//****************** Start of LinkedList Tests ********************//
 TEST(LinkedListBasics, IsEmpty)
 {
     // Assemble
@@ -142,6 +155,8 @@ TEST(LinkedListBasics, BasicInOrderStorage)
     // Assert
     ASSERT_THAT(result, ElementsAreArray(vals));
 }
+//****************** End of LinkedList tests **************************//
+
 
 // Main only sets up the Google gtest system and runs the tests
 // Any Functions in this file called "TEST" will be run
