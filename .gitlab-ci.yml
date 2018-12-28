@@ -6,7 +6,7 @@ before_script:
     - echo " This system uses Alpine Linux because it's small and efficient" >> /dev/null
     - echo " For info on Alpine Linux, go to alpinelinux.org" >> /dev/null
     - echo "http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-    - apk add --update --no-cache less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev lcov >> /dev/null
+    - apk add --update --no-cache less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev lcov gmock >> /dev/null
 
 stages:
     - build
