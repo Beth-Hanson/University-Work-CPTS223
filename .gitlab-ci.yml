@@ -1,3 +1,14 @@
+#
+#  GitLab CI/CD configuration file
+#   This file describes how to build and test our projects
+#   You probably shouldn't edit this one for the CptS223 class
+#   More information on GitLab CI/CD is here:
+#      https://docs.gitlab.com/ce/ci/yaml/
+#
+#  Copyright 2018
+#  Contributors:
+#    Aaron S. Crandall <acrandal@wsu.edu>
+#
 
 image: alpine:latest
 
@@ -5,7 +16,8 @@ before_script:
     - echo "Initializing Environment" >> /dev/null
     - echo " This system uses Alpine Linux because it's small and efficient" >> /dev/null
     - echo " For info on Alpine Linux, go to alpinelinux.org" >> /dev/null
-    - echo "http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+    - echo "http://dl-3.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
+    - echo "http://dl-3.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
     - apk add --update --no-cache less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev lcov gmock >> /dev/null
 
 stages:
