@@ -10,8 +10,11 @@
 #    Aaron S. Crandall <acrandal@wsu.edu>
 #
 
+# Default Docker image is Alpine Linux's latest release
+#  Each job in the pipeline will run in a separate Alpine Linux environment
 image: alpine:latest
 
+# Every job will run the before_script before the main script lines
 before_script:
     - echo "Initializing Environment" >> /dev/null
     - echo " This system uses Alpine Linux because it's small and efficient" >> /dev/null
@@ -20,6 +23,8 @@ before_script:
     - echo "http://dl-3.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
     - apk add --update --no-cache less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev lcov gmock >> /dev/null
 
+# Defining the two stages for this CI pipeline
+#  Stage 1 - build the software, Stage 2 - test the software
 stages:
     - build
     - test
@@ -44,17 +49,18 @@ MA1-test:
     - linux
     - docker
 
-MA1-coverage:
-  stage: test
-  script:
-    - cd MA1
-    - make coverage
-  tags:
-    - linux
-    - docker
-  artifacts:
-    paths:
-      - MA1/coverage_report
+#MA1-coverage:
+#  stage: test
+#  script:
+#    - cd MA1
+#    - make coverage
+#  tags:
+#    - linux
+#    - docker
+#  artifacts:
+#    paths:
+#      - MA1/coverage_report
+# MA1 End of Hello World
 
 # MA2 is the Big Five assignment
 MA2-BigFive-build:
@@ -75,3 +81,4 @@ MA2-BigFive-test:
   tags:
     - linux
     - docker
+# END of MA2 - Big Five assignment
