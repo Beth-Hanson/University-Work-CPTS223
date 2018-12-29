@@ -13,6 +13,18 @@
 
 using namespace testing;
 
+
+
+    // Returns pointer to front of list - THIS IS DANGEROUS
+    // Should be protected:, but I need it here for testing the destructor
+    // To fix this, I should inherit from LinkedList and create this interface for testing
+    /*
+    ListNode<T> *getFront()
+    {
+        return _front;
+    }
+    */
+
 //**************** Start of ListNode Tests ********************//
 TEST(ListNode, SetAndGetValue)
 {
@@ -219,6 +231,33 @@ TEST(LinkedListBasics, BasicInOrderStorage)
     ASSERT_THAT(result, ElementsAreArray(vals));
 }
 //****************** End of LinkedList tests **************************//
+
+
+//********* Start of Microassignment LinkedList tests *****************//
+TEST(LinkedListBigFive, CopyConstructor)
+{
+    // Assemble
+    LinkedList<int> firstList{};
+    vector<int> srcVals = {1, 2, 3, 4, 5};
+    for (auto val : srcVals) {
+        firstList.addElement(val);
+    }
+    // Act
+    LinkedList<int> listCopy{ firstList };      // Executes Copy Constructor
+    vector<int> copyVals = {};
+    for (int i = 0; i < listCopy.getSize(); i++)
+    {
+        copyVals.push_back(listCopy.getElementAt(i));
+    }
+    // Assert
+    ASSERT_THAT(copyVals, ElementsAreArray(srcVals));
+}
+
+
+
+
+//********* End of Microassignment LinkedList tests *******************//
+
 
 
 // Main only sets up the Google gtest system and runs the tests
