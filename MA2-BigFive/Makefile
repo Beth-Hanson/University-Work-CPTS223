@@ -37,10 +37,34 @@ run: build
 	@echo "Running the $(BINNAME) program"
 	./$(BINDIR)/$(BINNAME)
 
-# Test the program - first build to ensure it works
-test: build
-	@echo "Testing the $(BINNAME) program."
+# Builds the test driver system with gtest and gmock
+build-test: build
+	@echo "Building the test driver program"
 	$(GPP) $(CFLAGS) $(TESTFLAGS) -o $(BINDIR)/$(TESTNAME) $(TESTNAME).cpp $(GTESTFLAGS)
+
+# Execute only starter tests - should all pass
+starter-tests: build build-test
+	@echo "Running assignment starter code tests"
+	./$(BINDIR)/$(TESTNAME) --gtest_filter=Starter*
+
+# Execute tests for the basic assignment
+base-tests: build build-test
+	@echo "Running tests for assignment's basic features"
+	./$(BINDIR)/$(TESTNAME) --gtest_filter=Base*
+
+# Execute tests for the B-grade challenge
+b-tests: build build-test
+	@echo "Running tests for assignment's B-grade features"
+	./$(BINDIR)/$(TESTNAME) --gtest_filter=Btest*
+
+# Execute tests for the A-grade challenge
+a-tests: build build-test
+	@echo "Running tests for assignment's A-grade features"
+	./$(BINDIR)/$(TESTNAME) --gtest_filter=Atest*
+
+# Test the program - first build to ensure it works
+test: build build-test 
+	@echo "Testing the full $(BINNAME) program suite."
 	./$(BINDIR)/$(TESTNAME)
 
 # Generate a code coverage report to show our unit testing is working
@@ -56,10 +80,11 @@ coverage: build test
 	@echo ">>> Go into the $(COVHTMLDIR) and load index.html with browser for report"
 	@echo ">>> If this is the GitLab server, there should be artifacts to look at on the right for this testing coverage job"
 
+# Executes a memory leak check using the valgrind tool
 memcheck: build
 	@echo "Running program checks like memory leaks and linting"
 	valgrind --error-exitcode=1 --leak-check=full --trace-children=yes ./$(BINDIR)/$(BINNAME)
-	
+
 
 # If you call "make clean" it will remove the built program
 # Removes binaries: BINNAME, TESTNAME

@@ -30,8 +30,8 @@ stages:
     - check
     - starter-tests
     - base-tests
-    - B-tests
-    - A-tests
+    - b-tests
+    - a-tests
     - run
 
 # MA1 is the Hello World assignment
@@ -78,23 +78,22 @@ MA2-BigFive-build:
     - linux
     - docker
 
-# Run the valgrind memory check
-#MA2-BigFive-memcheck:
-#  stage: check
-#  script:
-#    - cd MA2-BigFive
-#    - make memcheck
-#  allow_failure: true
-#  tags:
-#    - linux
-#    - docker
-
 # Run the starter code tests
-MA2-BigFive-test:
+MA2-BigFive-starter-tests:
   stage: starter-tests
   script:
     - cd MA2-BigFive
-    - make test
+    - make starter-tests
+  tags:
+    - linux
+    - docker
+
+# Run the base code tests
+MA2-BigFive-base-tests:
+  stage: base-tests
+  script:
+    - cd MA2-BigFive
+    - make base-tests
   tags:
     - linux
     - docker
