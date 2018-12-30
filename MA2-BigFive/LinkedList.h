@@ -238,12 +238,10 @@ public:
     // Returns pointer to front of list - THIS IS DANGEROUS
     // Should be protected:, but I need it here for testing the destructor
     // To fix this, I should inherit from LinkedList and create this interface for testing
-    /*
     ListNode<T> *getFront()
     {
         return _front;
     }
-    */
 
     // Will return true if the LL is empty.
     virtual bool isEmpty() const
