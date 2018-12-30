@@ -28,7 +28,11 @@ before_script:
 stages:
     - build
     - check
-    - starter-test
+    - starter-tests
+    - base-tests
+    - B-tests
+    - A-tests
+    - run
 
 # MA1 is the Hello World assignment
 MA1-build:
@@ -42,7 +46,7 @@ MA1-build:
     - docker
 
 MA1-test:
-  stage: test
+  stage: starter-tests
   script:
     - cd MA1
     - make test
@@ -87,7 +91,7 @@ MA2-BigFive-build:
 
 # Run the starter code tests
 MA2-BigFive-test:
-  stage: test
+  stage: starter-tests
   script:
     - cd MA2-BigFive
     - make test
