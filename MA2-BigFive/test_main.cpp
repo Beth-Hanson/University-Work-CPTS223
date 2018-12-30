@@ -1,5 +1,5 @@
 /*
- *
+ *  Test suite for Big Five Linked List project
  */
 
 #include <gtest/gtest.h>
@@ -13,20 +13,8 @@
 
 using namespace testing;
 
-
-
-    // Returns pointer to front of list - THIS IS DANGEROUS
-    // Should be protected:, but I need it here for testing the destructor
-    // To fix this, I should inherit from LinkedList and create this interface for testing
-    /*
-    ListNode<T> *getFront()
-    {
-        return _front;
-    }
-    */
-
 //**************** Start of ListNode Tests ********************//
-TEST(ListNode, SetAndGetValue)
+TEST(StarterListNode, SetAndGetValue)
 {
     // Assemble
     ListNode<int> node;
@@ -36,7 +24,7 @@ TEST(ListNode, SetAndGetValue)
     ASSERT_EQ(testValue, node.getValue());
 }
 
-TEST(ListNode, CopyConstructor)
+TEST(StarterListNode, CopyConstructor)
 {
     // Assemble
     ListNode<int> nodeA;
@@ -48,7 +36,7 @@ TEST(ListNode, CopyConstructor)
     ASSERT_EQ(nodeA.getValue(), nodeB.getValue());
 }
 
-TEST(ListNode, CopyOperator)
+TEST(StarterListNode, CopyOperator)
 {
     // Assemble
     ListNode<int> nodeA;
@@ -64,7 +52,7 @@ TEST(ListNode, CopyOperator)
 
 
 //****************** Start of LinkedList Tests ********************//
-TEST(LinkedListBasics, IsEmpty)
+TEST(StarterLinkedList, IsEmpty)
 {
     // Assemble
     LinkedList<int> numbers{};
@@ -72,7 +60,7 @@ TEST(LinkedListBasics, IsEmpty)
     ASSERT_EQ(true, numbers.isEmpty());
 }
 
-TEST(LinkedListBasics, IsNotEmpty)
+TEST(StarterLinkedList, IsNotEmpty)
 {
     // Assemble
     LinkedList<int> numbers{};
@@ -81,7 +69,7 @@ TEST(LinkedListBasics, IsNotEmpty)
     ASSERT_EQ(false, numbers.isEmpty());
 }
 
-TEST(LinkedListBasics, GetElementAt)
+TEST(StarterLinkedList, GetElementAt)
 {
     // Assemble
     LinkedList<int> numbers{};
@@ -93,7 +81,7 @@ TEST(LinkedListBasics, GetElementAt)
     ASSERT_EQ(7, numbers.getElementAt(2));
 }
 
-TEST(LinkedListBasics, SetElementAt)
+TEST(StarterLinkedList, SetElementAt)
 {
     // Assemble
     LinkedList<int> numbers{};
@@ -103,12 +91,12 @@ TEST(LinkedListBasics, SetElementAt)
     for (auto val : vals)
         { numbers.addElement(val); }
     // Act
-    numbers.setElementAt(setVal,setLocation);
+    numbers.setElementAt(setVal, setLocation);
     // Assert
     ASSERT_EQ(setVal, numbers.getElementAt(setLocation));
 }
 
-TEST(LinkedListBasics, AddElementAtFront)
+TEST(StarterLinkedList, AddElementAtFront)
 {
     // Assemble
     LinkedList<int> numbers{};
@@ -123,13 +111,13 @@ TEST(LinkedListBasics, AddElementAtFront)
     ASSERT_EQ(setVal, numbers.getElementAt(setLocation));
 }
 
-TEST(LinkedListBasics, AddElementAtEnd)
+TEST(StarterLinkedList, AddElementAtEnd)
 {
     // Assemble
     LinkedList<int> numbers{};
     int setVal = 10;
     vector<int> vals = {2, 5, 7, 3, 6};
-    int setLocation = vals.size();      // Inserts at tail of LL
+    int setLocation = (int)vals.size();      // Inserts at tail of LL
     for (auto val : vals)
         { numbers.addElement(val); }
     // Act
@@ -138,14 +126,14 @@ TEST(LinkedListBasics, AddElementAtEnd)
     ASSERT_EQ(setVal, numbers.getElementAt(setLocation));
 }
 
-TEST(LinkedListBasics, AddElementAtMiddle)
+TEST(StarterLinkedList, AddElementAtMiddle)
 {
     // Assemble
     LinkedList<int> numbers{};
     int setVal = 10;
     vector<int> vals = {2, 5, 7, 3, 6};
-    int setLocation = vals.size() / 2;  // Inserts in middle of LL
-    for (auto val : vals)               // Add all vals to list as nodes
+    int setLocation = (int)vals.size() / 2; // Inserts in middle of LL
+    for (auto val : vals)                   // Add all vals to list as nodes
         { numbers.addElement(val); }
     // Act
     numbers.addElementAt(setVal, setLocation);
@@ -153,39 +141,39 @@ TEST(LinkedListBasics, AddElementAtMiddle)
     ASSERT_EQ(setVal, numbers.getElementAt(setLocation));
 }
 
-TEST(LinkedListBasics, GetElementAtExceptionOut_Of_RangeUnderZero)
+TEST(StarterLinkedList, GetElementAtExceptionOut_Of_RangeUnderZero)
 {
     LinkedList<int> numbers{};
     ASSERT_THROW(numbers.getElementAt(-1), out_of_range);
 }
-TEST(LinkedListBasics, GetElementAtExceptionOut_Of_RangeTooHigh)
+TEST(StarterLinkedList, GetElementAtExceptionOut_Of_RangeTooHigh)
 {
     LinkedList<int> numbers{};
     ASSERT_THROW(numbers.getElementAt(2), out_of_range);
 }
 
-TEST(LinkedListBasics, RemoveElementAtExceptionOut_Of_RangeUnderZero)
+TEST(StarterLinkedList, RemoveElementAtExceptionOut_Of_RangeUnderZero)
 {
     LinkedList<int> numbers{};
     ASSERT_THROW(numbers.removeElementAt(-1), out_of_range);
 }
 
-TEST(LinkedListBasics, RemoveElementAtExceptionOut_Of_RangeTooHigh)
+TEST(StarterLinkedList, RemoveElementAtExceptionOut_Of_RangeTooHigh)
 {
     LinkedList<int> numbers{};
     vector<int> vals = {2, 5, 7, 3, 6};
-    int remLocation = vals.size() / 2;  // Inserts in middle of LL
-    for (auto val : vals)               // Add all vals to list as nodes
+    //int remLocation = (int)vals.size() / 2; // Inserts in middle of LL
+    for (auto val : vals)                   // Add all vals to list as nodes
         { numbers.addElement(val); }
     ASSERT_THROW(numbers.removeElementAt(10), out_of_range);
 }
 
-TEST(LinkedListBasics, RemoveElementAtMiddle)
+TEST(StarterLinkedList, RemoveElementAtMiddle)
 {
     LinkedList<int> numbers{};
     vector<int> vals = {2, 5, 7, 3, 6};
-    int remLocation = vals.size() / 2;  // Inserts in middle of LL
-    for (auto val : vals)               // Add all vals to list as nodes
+    int remLocation = (int)vals.size() / 2; // Inserts in middle of LL
+    for (auto val : vals)                   // Add all vals to list as nodes
         { numbers.addElement(val); }
     numbers.removeElementAt(remLocation);   // Removing from middle of list
     ASSERT_EQ(4, numbers.getSize());
@@ -201,7 +189,7 @@ TEST(LinkedListBasics, RemoveElementAtMiddle)
     ASSERT_EQ(0, numbers.getSize());
 }
 
-TEST(LinkedListBasics, getElementAt)
+TEST(StarterLinkedList, getElementAt)
 {
     // Assemble
     LinkedList<int> numbers{};
@@ -216,7 +204,7 @@ TEST(LinkedListBasics, getElementAt)
     ASSERT_EQ(getVal, gotVal);
 }
 
-TEST(LinkedListBasics, BasicInOrderStorage)
+TEST(StarterLinkedList, BasicInOrderStorage)
 {
     // Assemble
     LinkedList<int> numbers{};
@@ -234,7 +222,7 @@ TEST(LinkedListBasics, BasicInOrderStorage)
 
 
 //********* Start of Microassignment LinkedList tests *****************//
-TEST(LinkedListBigFive, CopyConstructor)
+TEST(BaseLinkedListBigFive, CopyConstructor)
 {
     // Assemble
     LinkedList<int> firstList{};
