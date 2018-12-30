@@ -21,12 +21,13 @@ before_script:
     - echo " For info on Alpine Linux, go to alpinelinux.org" >> /dev/null
     - echo "http://dl-3.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
     - echo "http://dl-3.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-    - apk add --update --no-cache less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev lcov gmock >> /dev/null
+    - apk add --update --no-cache less util-linux pciutils usbutils coreutils binutils findutils grep gtest build-base gcc abuild binutils gtest-dev lcov gmock valgrind >> /dev/null
 
 # Defining the two stages for this CI pipeline
 #  Stage 1 - build the software, Stage 2 - test the software
 stages:
     - build
+    - check
     - test
 
 # MA1 is the Hello World assignment
@@ -73,6 +74,18 @@ MA2-BigFive-build:
     - linux
     - docker
 
+# Run the valgrind memory check
+MA2-BigFive-memcheck:
+  stage: check
+  script:
+    - cd MA2-BigFive
+    - make memcheck
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+
+# Run the starter code tests
 MA2-BigFive-test:
   stage: test
   script:

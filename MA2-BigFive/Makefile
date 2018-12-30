@@ -7,7 +7,7 @@
 
 # Variables
 GPP         = g++
-CFLAGS      = -g -std=c++11
+CFLAGS      = -g -std=c++11 -Wall -Wshadow -Wconversion
 GTESTFLAGS  = -lpthread -lgtest
 RM          = rm -f
 BINNAME     = main
@@ -55,6 +55,10 @@ coverage: build test
 	@echo "Run 'make clean' to remove all of these temp files"
 	@echo ">>> Go into the $(COVHTMLDIR) and load index.html with browser for report"
 	@echo ">>> If this is the GitLab server, there should be artifacts to look at on the right for this testing coverage job"
+
+memcheck: build
+	@echo "Running program checks like memory leaks and linting"
+	valgrind --error-exitcode=1 --leak-check=full --trace-children=yes ./$(BINDIR)/$(BINNAME)
 	
 
 # If you call "make clean" it will remove the built program
