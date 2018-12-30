@@ -94,6 +94,7 @@ MA2-BigFive-base-tests:
   script:
     - cd MA2-BigFive
     - make base-tests
+  allow_failure: true
   tags:
     - linux
     - docker
