@@ -110,6 +110,8 @@ TEST(BaseLinkedListBigFive, MoveAssignmentOperator)
     for (auto val : srcVals)
         { movedList.addElement(val); }          // Fill list with init data
     // Act - execute move assignment operator
+    // NOTE: This requires a working initializer_list constructor
+    //  The rvalue on the right of the = operator is built with an intializer_list
     movedList = LinkedList<int>{6, 7, 8, 9, 10, 11}; // Move assignment op
 
     vector<int> movedVals = {};
