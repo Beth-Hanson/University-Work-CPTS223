@@ -80,6 +80,28 @@ TEST(BaseLinkedListBigFive, InitializerListConstructor)
 }
 //*** End of Initializer List Constructor tests ***
 
+//*** Start of Copy *assignment* operator tests ***
+TEST(BaseLinkedListBigFive, CopyAssignmentOperator)
+{
+    LinkedList<int> firstList{}; 
+    vector<int> srcVals = {1, 2, 3, 4, 5};
+    for (auto val : srcVals)
+        { firstList.addElement(val); }      // Fill the first list up
+    LinkedList<int> copiedList;             // List to copy into via assignment
+    // Act - Run copy assignment operator
+    copiedList = firstList;                 // Copy assignment operator executed
+    // Assert
+    vector<int> copyVals = {};
+    for (int i = 0; i < copiedList.getSize(); i++)
+    {   
+        copyVals.push_back(copiedList.getElementAt(i));
+    }
+    // Assert
+    ASSERT_EQ(srcVals.size(), copiedList.getSize());        // Test size correct
+    ASSERT_NE(firstList.getFront(), copiedList.getFront()); // Test shallow copy (bad)
+    ASSERT_THAT(copyVals, ElementsAreArray(srcVals));       // Test contents
+}
+
 
 //********* End of Base Microassignment LinkedList tests **************//
 
