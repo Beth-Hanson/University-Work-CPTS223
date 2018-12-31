@@ -179,8 +179,7 @@ public:
     //  MA TODO: Implement!
     LinkedList(initializer_list<T> values)
     {
-        if(_debug)
-           { cout << " [x] Initializer List Constructor executed. " << endl; }
+        cout << " [x] Initializer List Constructor executed. " << endl;
         // Add a copy of every element in values to ourselves
     }
 

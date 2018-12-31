@@ -79,6 +79,23 @@ TEST(BaseLinkedListBigFive, MoveConstructor)
     ASSERT_EQ(nullptr, firstList.getFront());               // Old list destroyed
     ASSERT_EQ(0, firstList.getSize());                      // Old list empty
 }
+//*** End of Move Constructor tests ***
+
+//*** Start of Initializer List Constructor tests ***
+TEST(BaseLinkedListBigFive, InitializerListConstructor)
+{
+    initializer_list<int> srcInitList = { 1, 2, 3, 4, 5 };      // Assemble
+    vector<int> srcVals = {1, 2, 3, 4, 5};
+    LinkedList<int> newList = LinkedList<int>{ srcInitList };   // Act
+    vector<int> newVals;
+    for (int i = 0; i < newList.getSize(); i++) {
+        newVals.push_back(newList.getElementAt(i));
+    }
+    // Assert
+    ASSERT_EQ( srcInitList.size(), newList.getSize() );         // Size correct?
+    ASSERT_THAT(srcVals, ElementsAreArray(newVals));            // Content correct?
+}
+//*** End of Initializer List Constructor tests ***
 
 
 //********* End of Base Microassignment LinkedList tests **************//
