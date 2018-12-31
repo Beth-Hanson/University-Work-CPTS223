@@ -34,6 +34,26 @@ TEST(BaseLinkedListBigFive, CopyConstructor)
     ASSERT_THAT(copyVals, ElementsAreArray(srcVals));
 }
 
+TEST(BaseLinkedListBigFive, CopyConstructorPointerTest)
+{
+    // Testing to see if you did a deep or shallow copy
+    // Assemble
+    LinkedList<int> firstList{};
+    vector<int> srcVals = {1, 2, 3, 4, 5};
+    for (auto val : srcVals) {
+        firstList.addElement(val);
+    }
+    // Act
+    LinkedList<int> listCopy{ firstList };      // Executes Copy Constructor
+    vector<int> copyVals = {};
+    for (int i = 0; i < listCopy.getSize(); i++)
+    {
+        copyVals.push_back(listCopy.getElementAt(i));
+    }
+    // Assert
+    ASSERT_NE(firstList.getFront(), listCopy.getFront());
+}
+
 
 //********* End of Base Microassignment LinkedList tests **************//
 
