@@ -203,7 +203,7 @@ public:
 
         // Delete our elements
 
-        // Add in other's elements
+        // Add in copies of other's elements
 
         return *this;
     }

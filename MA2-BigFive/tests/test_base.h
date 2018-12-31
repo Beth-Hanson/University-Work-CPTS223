@@ -93,14 +93,33 @@ TEST(BaseLinkedListBigFive, CopyAssignmentOperator)
     // Assert
     vector<int> copyVals = {};
     for (int i = 0; i < copiedList.getSize(); i++)
-    {   
-        copyVals.push_back(copiedList.getElementAt(i));
-    }
+        { copyVals.push_back(copiedList.getElementAt(i)); }
     // Assert
     ASSERT_EQ(srcVals.size(), copiedList.getSize());        // Test size correct
     ASSERT_NE(firstList.getFront(), copiedList.getFront()); // Test shallow copy (bad)
     ASSERT_THAT(copyVals, ElementsAreArray(srcVals));       // Test contents
 }
+//*** End of Copy *assignment* operator tests ***
+
+//*** Start of Move *assignment* operator tests ***
+TEST(BaseLinkedListBigFive, MoveAssignmentOperator)
+{
+    LinkedList<int> movedList{};                // Assemble - create our list
+    vector<int> srcVals = {1, 2, 3, 4, 5};
+    vector<int> finalVals = {6, 7, 8, 9, 10, 11};
+    for (auto val : srcVals)
+        { movedList.addElement(val); }          // Fill list with init data
+    // Act - execute move assignment operator
+    movedList = LinkedList<int>{6, 7, 8, 9, 10, 11}; // Move assignment op
+
+    vector<int> movedVals = {};
+    for (int i = 0; i < movedList.getSize(); i++)
+        { movedVals.push_back(movedList.getElementAt(i)); }
+    // Assert
+    ASSERT_EQ(finalVals.size(), movedList.getSize());       // Test size correct
+    ASSERT_THAT(finalVals, ElementsAreArray(movedVals));    // Test contents
+}
+//*** End of Move *assignment* operator tests ***
 
 
 //********* End of Base Microassignment LinkedList tests **************//
