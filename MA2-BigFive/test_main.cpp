@@ -69,6 +69,17 @@ TEST(StarterLinkedList, IsNotEmpty)
     ASSERT_EQ(false, numbers.isEmpty());
 }
 
+TEST(StarterLinkedList, Size)
+{
+    // Assemble
+    LinkedList<int> numbers{};
+    ASSERT_EQ(0, numbers.getSize());    // Empty list
+    for( int i = 1; i < 2100000; ++i ) {
+        numbers.addElement(i);          //Act
+        ASSERT_EQ(i, numbers.getSize());// Assert
+    }
+}
+
 TEST(StarterLinkedList, GetElementAt)
 {
     // Assemble
