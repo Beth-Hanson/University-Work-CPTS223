@@ -123,6 +123,33 @@ TEST(BaseLinkedListBigFive, MoveAssignmentOperator)
 }
 //*** End of Move *assignment* operator tests ***
 
+//*** Start of Destructor (~) tests ***
+TEST(BaseLinkedListBigFive, DestructorTests)
+{
+    LinkedList<int> * myList = new LinkedList<int>(); // Assemble - create our list
+    myList->debug_on();                      // Turn on extra LinkedList output
+    vector<int> srcVals = {1, 2, 3, 4, 5};
+    for (auto val : srcVals)
+        { myList->addElement(val); }         // Fill list with init data
+    // Gather white box data
+    ListNode<int> * front = myList->getFront();
+    vector< ListNode<int>* > nodes;
+
+    ListNode<int> * curr_node = front;
+    while( curr_node != nullptr ) {
+        nodes.push_back(curr_node);
+        curr_node = curr_node->getNext();
+    }
+
+    delete myList;
+    for (auto node : nodes) {
+        ASSERT_EQ(0, node->getValue());
+        ASSERT_EQ(nullptr, node->getNext());
+    } 
+
+}
+//*** End of Destructor (~) tests ***
+
 
 //********* End of Base Microassignment LinkedList tests **************//
 
