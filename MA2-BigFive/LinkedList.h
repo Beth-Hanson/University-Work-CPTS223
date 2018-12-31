@@ -188,8 +188,9 @@ public:
     //  MA TODO: Implement!
     virtual ~LinkedList()
     {
-        if(_debug)
-            { cout << "  [x] LinkedList Destructor executed. " << endl; }
+        if( _debug ) {
+            cout << "  [x] LinkedList Destructor executed. " << endl;
+        }
         // Delete every node in our internal linked list
     }
 
@@ -198,8 +199,7 @@ public:
     virtual LinkedList<T> &operator=(const LinkedList<T> &other)
     {
         // Note: might want to make sure we don't copy ourselves!
-        if(_debug)
-            { cout << " [x] Copy *assignment* operator called. " << endl; }
+        cout << " [x] Copy *assignment* operator called. " << endl;
 
         // Delete our elements
 
@@ -213,8 +213,7 @@ public:
     //  MA TODO: Implement!
     virtual LinkedList<T> &operator=(LinkedList<T> &&other)
     {
-        if(_debug)
-            { cout << " [x] Move *assignment* operator called. " << endl; }
+        cout << " [x] Move *assignment* operator called. " << endl;
         // Delete our own elements
 
         // Grab other data for ourselves
