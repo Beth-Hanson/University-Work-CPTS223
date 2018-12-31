@@ -72,7 +72,7 @@ TEST(BaseLinkedListBigFive, MoveConstructor)
         movedListVals.push_back(movedList.getElementAt(i));
     }
     // Assert
-    ASSERT_EQ(srcFront, movedList.getFront())               // Should be same Nodes
+    ASSERT_EQ(srcFront, movedList.getFront());              // Should be same Nodes
     ASSERT_THAT(movedListVals, ElementsAreArray(srcVals));  // Elements all in order
     ASSERT_EQ(srcVals.size(), movedListVals.size());        // No elements lost
     ASSERT_EQ(srcVals.size(), movedList.getSize());         // List knows size properly
