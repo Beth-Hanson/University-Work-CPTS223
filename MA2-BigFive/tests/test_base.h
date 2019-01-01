@@ -143,7 +143,6 @@ TEST(BaseLinkedListBigFive, DestructorTests)
 
     delete myList;
     for (auto node : nodes) {
-        //ASSERT_EQ(0, node->getValue());
         ASSERT_EQ(nullptr, node->getNext());
     } 
 
