@@ -67,6 +67,7 @@ MA1-test:
 #      - MA1/coverage_report
 # MA1 End of Hello World
 
+#******************************** MA2 ****************************#
 # MA2 is the Big Five assignment
 MA2-BigFive-build:
   stage: build
@@ -99,3 +100,37 @@ MA2-BigFive-base-tests:
     - linux
     - docker
 # END of MA2 - Big Five assignment
+
+#******************************** MA3 ****************************#
+# MA3 is the BST Level Order (and Big Five) project
+MA3-BSTLevelOrder-build:
+  stage: build
+  script:
+    - cd MA3-BSTLevelOrder
+    - make build
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+
+# Run the starter code tests
+MA3-BSTLevelOrder-starter-tests:
+  stage: starter-tests
+  script:
+    - cd MA3-BSTLevelOrder
+    - make starter-tests
+  tags:
+    - linux
+    - docker
+
+# Run the base code tests
+MA3-BSTLevelOrder-base-tests:
+  stage: base-tests
+  script:
+    - cd MA3-BSTLevelOrder
+    - make base-tests
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+# END of MA3 - BST Level Order (and Big Five) project
