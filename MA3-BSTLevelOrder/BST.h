@@ -11,6 +11,8 @@
  * Aaron Crandall - 2017 - Heavy overhaul of tests & behaviors
  *  * Added BigFive (like we should!)
  *  * Added several public interfaces for tree features
+ * Aaron Crandall - 2019 - Fixed -Wshadow errors
+ *  * Identified a few badly done interface fixes
  *
  */
 
@@ -26,10 +28,11 @@
 using namespace std;
 
 /*
- *  Node datastructure for single tree node
+ *  Datastructure for a single tree node
  */ 
 template <class T>
 struct Node {
+public:
     T value;
     Node *left;
     Node *right;
@@ -40,10 +43,10 @@ struct Node {
         this->right = NULL;
     }
 
-    Node(T val, Node<T> * left, Node<T> * right) {
+    Node(T val, Node<T> * setLeft, Node<T> * setRight) {
         this->value = val;
-        this->left = left;
-        this->right = right;
+        this->left = setLeft;
+        this->right = setRight;
     }
 };
 
@@ -54,7 +57,8 @@ template <class T>
 class BST {
 
     private:
-    Node<T> *root;
+    Node<T> *_root;         // Root of the tree nodes
+    bool _debug = false;    // Enable extra output
 
     /* clone a passed in tree, returns pointer to new tree */
     Node<T> * cloneTree(Node<T> *t) {
@@ -120,9 +124,6 @@ class BST {
     /* MA TODO: Implement */
     void printLevelOrderHelper(Node<T> *root) {
         if (!root) return;
-        /*
-        MA TODO:
-        */
         cout << endl;
         cout << "printLevelOrderHelper UNIMPLEMENTED AT THIS TIME -- REPLACE!" << endl;
         cout << " ** Required to use the STL queue class (that's a huge hint)!" << endl;
@@ -146,14 +147,20 @@ class BST {
 
     /* Return number of nodes in tree */
     int nodesCountHelper(Node<T> *root) {
-        if (!root) return 0;
-        else return 1 + nodesCountHelper(root->left) + nodesCountHelper(root->right);
+        if (!root) {
+            return 0;
+        } else {
+            return 1 + nodesCountHelper(root->left) + nodesCountHelper(root->right);
+        }
     }
 
     /* Return height of tree (root == NULL -> 0) */
     int heightHelper(Node<T> *root) {
-        if (!root) return 0;
-        else return 1 + max(heightHelper(root->left), heightHelper(root->right));
+        if (!root) {
+            return 0;
+        } else {
+            return 1 + max(heightHelper(root->left), heightHelper(root->right));
+        }
     }
 
     /* Print out longest path from root to a leaf */
@@ -167,7 +174,7 @@ class BST {
         }
     }
 
-    /* Delete a given T value from tree */
+    /* Delete a given <T> value from tree */
     bool deleteValueHelper(Node<T>* parent, Node<T>* current, T value) {
         if (!current) return false;
         if (current->value == value) {
@@ -181,7 +188,7 @@ class BST {
                         parent->right = temp;
                     }
                 } else {
-                    this->root = temp;
+                    this->_root = temp;
                 }
             } else {
                 Node<T>* validSubs = current->right;
@@ -212,30 +219,36 @@ class BST {
     }
 
 
+    /********************************* PUBLIC API *****************************/
     public:
 
-    BST( ) : root( NULL ) { }                   // Basic initialization constructor
+    BST( ) : _root( NULL ) { }               // Basic initialization constructor
 
-    BST( initializer_list<T> vals ) : root( NULL ) {   // Vector-based initializer
+    BST( initializer_list<T> vals ) : _root( NULL ) {
         for( auto val : vals )
-            this->add(val);
+            { this->add(val); }
     }
 
-    ~BST( ) {                             // Destructor - free all nodes
-        cout << " [d] Destructor called." << endl;
-        cout << " TODO: Implement destructor to free *whole* tree. " << endl;
+
+    /* Destructor - Needs to free *all* nodes in the tree */
+    /* MA TODO: Implement */
+    ~BST( ) {
+        if( this->_debug ) {
+            cout << " [d] Destructor called." << endl;
+            cout << " TODO: Implement destructor to free *whole* tree. " << endl;
+        }
     }
 
     /* Copy constructor */
     /* MA TODO: Implement */
-    BST( const BST &other ) : root( NULL ) {
+    BST( const BST &other ) : _root( NULL ) {
         cout << " [d] Copy constructor called. " << endl;
         cout << " TODO: Implement copy constructor. " << endl;
     }
 
     /* Move constructor */
     /* MA TODO: Implement */
-    BST ( BST && other ) : root( NULL ) {
+    BST ( BST && other ) : _root( NULL ) {
         cout << " [d] Move constructor called " << endl;
         cout << " TODO: Implement move constructor. " << endl;
     }
@@ -245,6 +258,7 @@ class BST {
     BST& operator=(BST & other) {
         cout << " [d] Copy assignment operator called. " << endl;
         cout << " TODO: Implement copy assignment operator. " << endl;
+        return * this;
     }
 
     /* Move assignment operator */
@@ -252,71 +266,85 @@ class BST {
     BST& operator=(BST && other) {
         cout << " [d] Move assignment operator called. " << endl;
         cout << " TODO: Implement move assignment operator. " << endl;
+        return * this;
     }
 
     /* Public API */
     void makeEmpty( ) {
-        if (root) 
-            this->makeEmptyHelper(root);
+        if (this->_root) 
+            this->makeEmptyHelper(this->_root);
     }
 
     void add(T val) {
-        if (root) {
-            this->addHelper(root, val);
+        if (this->_root) {
+            this->addHelper(this->_root, val);
         } else {
-            root = new Node<T>(val);
+            this->_root = new Node<T>(val);
         }
     }
 
     bool empty() {
-        return( root != NULL );
+        return( this->_root == NULL );
     }
 
     void print() {
-        printInOrderHelper(this->root); 
+        printInOrderHelper(this->_root); 
     }
 
     void printInOrder() {
-        printInOrderHelper(this->root);
+        printInOrderHelper(this->_root);
     }
 
     void printPostOrder() {
-        printPostOrderHelper(this->root);
+        printPostOrderHelper(this->_root);
     }
 
     void printPreOrder() {
-        printPreOrderHelper(this->root);
+        printPreOrderHelper(this->_root);
     }
 
     void printLevelOrder() {
-        printLevelOrderHelper(this->root);
+        printLevelOrderHelper(this->_root);
     }
 
     vector<T> & returnLevelOrder() {
-        return returnLevelOrderHelper(this->root);
+        return returnLevelOrderHelper(this->_root);
     }
 
+    int size() {
+        return nodesCount();
+    }
     int nodesCount() {
-        return nodesCountHelper(root);
+        return nodesCountHelper(this->_root);
     }
 
     int height() {
-        return heightHelper(this->root);
+        return heightHelper(this->_root);
     }
 
     void printMaxPath() {
-        printMaxPathHelper(this->root);
+        printMaxPathHelper(this->_root);
     }
 
     bool deleteValue(T value) {
-        return this->deleteValueHelper(NULL, this->root, value);
+        return this->deleteValueHelper(NULL, this->_root, value);
     }
 
     bool contains( T value ) {
-        return containsHelper(this->root, value);
+        return containsHelper(this->_root, value);
     }
 
-    Node<T> * getRoot() { return(root); }  // Gives out our root pointer for testing
+    void debug_on() {
+        this->_debug = true;
+    }
+
+    void debug_off() {
+        this->_debug = false;
+    }
+
+    /** NOTE: This is dangerous - I should be using a child class that exposes
+            the root and only exists in the testing harness */
+    Node<T> * getRoot() { return(this->_root); } // Gives out our root pointer for testing
 };
 
 

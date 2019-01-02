@@ -14,56 +14,148 @@
 
 using namespace testing;
 
-//**************** Start of ListNode Tests ********************//
+//**************** Start of Node Tests ********************//
+TEST(StarterNode, BasicInitializer)
+{
+    // Assemble
+    int testValue = 13;
+    Node<int> node = Node<int>(testValue);
+    // Assert
+    ASSERT_EQ(testValue, node.value);
+    ASSERT_EQ(NULL, node.left);
+    ASSERT_EQ(NULL, node.right);
+}
+
+TEST(StarterNode, InitializeChildren)
+{
+    // Assemble
+    int testValue = 13;
+    Node<int> * leftChild = new Node<int>(8);
+    Node<int> * rightChild = new Node<int>(15);
+    Node<int> node = Node<int>(testValue, leftChild, rightChild);
+    // Assert
+    ASSERT_EQ(testValue, node.value);
+    ASSERT_EQ(leftChild, node.left);
+    ASSERT_EQ(rightChild, node.right);
+}
+
+//****************** End of Node Tests ********************//
+
+
+//****************** Start of BST Tests ********************//
+TEST(StarterBST, IsEmpty)
+{
+    BST<int> tree{};                // Assemble
+    ASSERT_EQ(true, tree.empty());  // Assert
+}
+
+TEST(StarterBST, AddContains)
+{
+    BST<int> tree{};                // Assemble
+    tree.add(7);
+    ASSERT_EQ(true, tree.contains(7));
+}
+
+TEST(StarterBST, MultipleAddContains)
+{
+    BST<int> tree{};                // Assemble
+    vector<int> vals = {20, 10, 30, 5, 15, 25, 35, 2, 7, 12, 17, 23, 28, 32, 38, -1, -4, 0};
+    for (auto val : vals)
+        { tree.add(val); }
+    for (auto val : vals)
+    {
+        ASSERT_EQ(true, tree.contains(val));
+    }
+}
+
+TEST(StarterBST, NotContains)
+{
+    BST<int> tree{};        // Assemble
+    vector<int> vals = {20, 10, 30, 5, 15, 25, 35, 2, 7, 12, 17, 23, 28, 32, 38, -1, -4, 0};
+    for (auto val : vals)
+        { tree.add(val); }  // Act
+    for (auto val : vals)
+    {
+        ASSERT_EQ(false, tree.contains(val+100));   // Assert
+    }
+}
+
+TEST(StarterBST, DupAddContains)
+{
+    BST<int> tree{};                // Assemble
+    vector<int> vals = {20, 10, 30, 5, 15, 25, 35, 2, 7, 12, 17, 23, 28, 32, 38, -1, -4, 0, 20, 10, 30, 5, 15, 25, 35, 2, 7, 12, 17, 23, 28, 32, 38, -1, -4, 0};
+    for (auto val : vals)
+        { tree.add(val); }
+    for (auto val : vals)
+    {
+        ASSERT_EQ(true, tree.contains(val));
+    }
+}
+
+TEST(StarterBST, Size)
+{
+    BST<int> tree{};
+    vector<int> vals = {20, 10, 30, 5, 15, 25, 35, 2, 7, 12, 17, 23, 28, 32, 38, -1, -4, 0};
+    for (auto val : vals)
+        { tree.add(val); }
+    ASSERT_EQ(vals.size(), tree.size());
+}
+
+TEST(StarterBST, Height)
+{
+    BST<int> tree{};
+    vector<int> vals = {20, 10, 5, 3, -1, 30, 35, 33};
+    ASSERT_EQ(0, tree.height());    // Test empty tree
+    tree.add( vals[0] );
+    ASSERT_EQ(1, tree.height());    // Single node tree
+    tree.add( vals[1] );
+    ASSERT_EQ(2, tree.height());    // Two node tree
+    tree.add( vals[2] );
+    ASSERT_EQ(3, tree.height());    // Three node degraded (unbalanced) tree
+    tree.add( vals[3] );
+    ASSERT_EQ(4, tree.height());    // Four node degraded (unbalanced) tree
+    tree.add( vals[4] );
+    ASSERT_EQ(5, tree.height());    // Five node degraded (unbalanced) tree
+    tree.add( vals[5] );
+    tree.add( vals[6] );
+    tree.add( vals[7] );
+    ASSERT_EQ(5, tree.height());    // More balanced tree
+}
+
+TEST(StarterBST, MakeEmpty)
+{
+    BST<int> tree{};
+    vector<int> vals = {20, 10, 30, 5, 15, 25, 35, 2, 7, 12, 17, 23, 28, 32, 38, -1, -4, 0};
+    for (auto val : vals)
+        { tree.add(val); }
+    ASSERT_EQ(vals.size(), tree.size());    // Validating tree status
+    ASSERT_EQ(false, tree.empty());         // Tree not empty
+    ASSERT_EQ(6, tree.height());            // This tree from vals is height = 6
+    ASSERT_NE(NULL, tree.getRoot());        // Should not be an empty root
+
+    tree.makeEmpty();                       // Act - should empty the tree
+
+    ASSERT_EQ(true, tree.empty());          // Should be true
+    ASSERT_EQ(0, tree.size());              // Should be zero
+    ASSERT_EQ(0, tree.height());            // Height is zero now
+    ASSERT_EQ(NULL, tree.getRoot());        // Root should be NULL
+        // Should also check to ensure all nodes were freed, not just forgotten
+}
+
+TEST(StarterBST, fuzzing)
+{
+    BST<int> tree{};        // Assemble
+    vector<int> vals = {20, 10, 30, 5, 15, 25, 35, 2, 7, 12, 17, 23, 28, 32, 38, -1, -4, 0};
+    for (auto val : vals)
+        { tree.add(val); }  // Act
+    for (auto val : vals)
+    {
+        ASSERT_EQ(false, tree.contains(val+100));   // Assert
+    }
+}
+
+
 /*
-TEST(StarterListNode, SetAndGetValue)
-{
-    // Assemble
-    ListNode<int> node;
-    int testValue = 13;
-    node.setValue(testValue);
-    // Assert
-    ASSERT_EQ(testValue, node.getValue());
-}
-
-TEST(StarterListNode, CopyConstructor)
-{
-    // Assemble
-    ListNode<int> nodeA;
-    int testValue = 13;
-    nodeA.setValue(testValue);
-    // Act
-    ListNode<int> nodeB(nodeA);    // Invokes copy constructor
-    // Assert
-    ASSERT_EQ(nodeA.getValue(), nodeB.getValue());
-}
-
-TEST(StarterListNode, CopyOperator)
-{
-    // Assemble
-    ListNode<int> nodeA;
-    int testValue = 13;
-    nodeA.setValue(testValue);
-    ListNode<int> nodeB;
-    // Act
-    nodeB = nodeA;    // Invokes copy operator
-    // Assert
-    ASSERT_EQ(nodeA.getValue(), nodeB.getValue());
-}
-*/
-//****************** End of ListNode Tests ********************//
-
-
-//****************** Start of LinkedList Tests ********************//
-/*
-TEST(StarterLinkedList, IsEmpty)
-{
-    // Assemble
-    LinkedList<int> numbers{};
-    // Assert
-    ASSERT_EQ(true, numbers.isEmpty());
-}
-
 TEST(StarterLinkedList, IsNotEmpty)
 {
     // Assemble

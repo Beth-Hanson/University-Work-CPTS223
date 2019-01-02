@@ -178,7 +178,7 @@ void run_tests() {
  */
 void run_big_test() {
     cout << " [t] Beginning BIG tree test! " << endl;
-    srand (time(NULL));  // Initialize random seed
+    srand ((unsigned int) time(NULL));  // Initialize random seed
     BST<int> bst = BST<int>();
     int tree_size = pow(2.0, 20.0);
     cout << endl << "  [t] Testing tree of size (2^20): " << tree_size << endl;
