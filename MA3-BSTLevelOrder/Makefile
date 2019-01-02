@@ -94,5 +94,6 @@ clean veryclean:
 	$(RM) -r $(COVHTMLDIR)
 
 # If you call "make starwars" it'll give you Star Wars!"
-starwars:
+# Must have telnet installed (apt-get install telnet)
+movie:
 	telnet towel.blinkenlights.nl

@@ -13,7 +13,7 @@
  */
 
 #include <iostream>
-#include <cstring>	// strcmp
+#include <cstring>  // strcmp
 #include <stdlib.h> // srand, rand
 #include <time.h>   // time
 #include <math.h>   // pow (for exponents)
@@ -22,6 +22,7 @@
 
 using namespace std;
 
+/*
 void test_copy_constructor() {
     cout << " [t] Testing copy constructor" << endl;
     BST<int> * bstsrc = new BST<int>({4,2,1,3,6,5,7,9,8});
@@ -90,8 +91,10 @@ void test_move_assignment_operator() {
         cout << " FAIL: someone is NULL or != NULL improperly" << endl;
     cout << endl;
 }
+*/
 
 /* Testing in,pre,post,level order tree traversals */
+/*
 void test_tree_traversal_ordering() {
     cout << " [t] Executing tree traversal tests. " << endl;
     BST<int> * bst = new BST<int>({4,2,1,3,6,5,7,9,8});
@@ -155,6 +158,7 @@ void test_tree_features() {
     cout << "Should be: 4 6 7 9 8";
     cout << endl << endl;
 }
+*/
 
 /*
  * run_tests - Execute tests to evaluate BST
@@ -162,12 +166,14 @@ void test_tree_features() {
 void run_tests() {
 	cout << " [t] Starting tests." << endl;
 
+/*
     test_tree_features();
     test_copy_constructor();
     test_move_constructor();
     test_copy_assignment_operator();
     test_move_assignment_operator();
     test_tree_traversal_ordering();
+*/
 
 	cout << " [t] ending tests." << endl;
 	return;

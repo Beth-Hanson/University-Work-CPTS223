@@ -161,6 +161,21 @@ TEST(BaseLinkedListBigFive, DestructorTests)
 */
 //*** End of Destructor (~) tests ***
 
+//*** Start of Level Order Tests ***
+TEST(BaseLevelOrder, PrintLevelOrder)
+{
+    std::stringstream ss;       // Buffer to store stream
+    BST<int> * bst = new BST<int>({4,2,1,3,6,5,7,9,8});
+    cout << "\tShould produce:\t4 2 6 1 3 5 7 9 8 " << endl;
+    cout << "\tLevelorder: \t";
+    bst->printLevelOrder(ss);    // Results are stored in ss
+    cout << ss.str();
+    cout << endl;
+    ASSERT_THAT(ss.str(), HasSubstr("4 2 6 1 3 5 7 9 8"));
+}
+
+
+//*** End of Level Order Tests ***
 
 //********* End of Base Microassignment LinkedList tests **************//
 

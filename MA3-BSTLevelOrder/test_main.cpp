@@ -14,6 +14,20 @@
 
 #include "BST.h"
 
+/* Class designed to expose implementation details of the BST
+   Notably, this allows us direct access to the root pointer
+   This allows for testing shallow/deep comparisions and destructors
+   This class is used in some of the tests
+*/
+template<class T>
+class TestableBST : public BST<T> {
+    public:
+    Node<T> * getRoot() {       // Gives out our root pointer for testing
+        return(this->_root);
+    }
+};
+
+
 #include "tests/test_starter.h"
 #include "tests/test_base.h"
 #include "tests/test_btests.h"

@@ -30,7 +30,7 @@ using namespace std;
 /*
  *  Datastructure for a single tree node
  */ 
-template <class T>
+template <typename T>
 struct Node {
 public:
     T value;
@@ -48,19 +48,27 @@ public:
         this->left = setLeft;
         this->right = setRight;
     }
+
+    ~Node()
+    {
+        this->value = 0;
+        this->left = NULL;
+        this->right = NULL;
+    }
 };
+
 
 /*
  * Binary Search Tree (BST) class implementation
  */
-template <class T>
+template <typename T>
 class BST {
 
-    private:
+    protected:
     Node<T> *_root;         // Root of the tree nodes
     bool _debug = false;    // Enable extra output
 
-    /* clone a passed in tree, returns pointer to new tree */
+    /* Clone a passed in tree, returns pointer to new tree */
     Node<T> * cloneTree(Node<T> *t) {
         if( t == NULL )
             return NULL;
@@ -97,37 +105,38 @@ class BST {
     }
 
     /* Print tree out in inorder (A + B) */
-    void printInOrderHelper(Node<T> *root) {
+    void printInOrderHelper(Node<T> *root, std::ostream& out) {
         if (!root) return;
-        printInOrderHelper(root->left);
-        cout << root->value << ' ';
-        printInOrderHelper(root->right);
+        printInOrderHelper(root->left, out);
+        out << root->value << ' ';
+        printInOrderHelper(root->right, out);
     }
 
     /* Print tree out in post order (A B +) */
-    void printPostOrderHelper(Node<T> *root) {
+    void printPostOrderHelper(Node<T> *root, std::ostream& out) {
         if (!root) return;
-        printPostOrderHelper(root->left);
-        printPostOrderHelper(root->right);
-        cout << root->value << ' ';
+        printPostOrderHelper(root->left, out);
+        printPostOrderHelper(root->right, out);
+        out << root->value << ' ';
     }
 
     /* Print tree out in pre order (+ A B) */
-    void printPreOrderHelper(Node<T> *root) {
+    void printPreOrderHelper(Node<T> *root, std::ostream& out) {
         if (!root) return;
-        cout << root->value << ' ';
-        printPreOrderHelper(root->left);
-        printPreOrderHelper(root->right);
+        out << root->value << ' ';
+        printPreOrderHelper(root->left, out);
+        printPreOrderHelper(root->right, out);
     }
 
     /* Print tree out in level order */
     /* MA TODO: Implement */
-    void printLevelOrderHelper(Node<T> *root) {
+    void printLevelOrderHelper(Node<T> *root, std::ostream& out) {
         if (!root) return;
-        cout << endl;
-        cout << "printLevelOrderHelper UNIMPLEMENTED AT THIS TIME -- REPLACE!" << endl;
-        cout << " ** Required to use the STL queue class (that's a huge hint)!" << endl;
-        cout << " ** Doing this with a loop will be easier than recursion." << endl;
+        out << endl;
+        out << "printLevelOrderHelper UNIMPLEMENTED AT THIS TIME -- REPLACE!" << endl;
+        out << " ** Required to use the STL queue class (that's a huge hint)!" << endl;
+        out << " ** Doing this with a loop will be easier than recursion." << endl;
+        out << " ** Your code MUST print to 'out' not 'cout' to work - see printInOrder()." << endl;
     }
 
     /* Generate vector of tree values to return */
@@ -273,6 +282,7 @@ class BST {
     void makeEmpty( ) {
         if (this->_root) 
             this->makeEmptyHelper(this->_root);
+        this->_root = NULL;
     }
 
     void add(T val) {
@@ -287,24 +297,26 @@ class BST {
         return( this->_root == NULL );
     }
 
-    void print() {
+    // The print functions take an *optional* ostream handle
+    // Not providing one will have them default to std::cout (the terminal)
+    void print(std::ostream& out=std::cout) {
         printInOrderHelper(this->_root); 
     }
 
-    void printInOrder() {
-        printInOrderHelper(this->_root);
+    void printInOrder(std::ostream& out=std::cout) {
+        printInOrderHelper(this->_root, out);
     }
 
-    void printPostOrder() {
-        printPostOrderHelper(this->_root);
+    void printPostOrder(std::ostream& out=std::cout) {
+        printPostOrderHelper(this->_root, out);
     }
 
-    void printPreOrder() {
-        printPreOrderHelper(this->_root);
+    void printPreOrder(std::ostream& out=std::cout) {
+        printPreOrderHelper(this->_root, out);
     }
 
-    void printLevelOrder() {
-        printLevelOrderHelper(this->_root);
+    void printLevelOrder(std::ostream& out=std::cout) {
+        printLevelOrderHelper(this->_root, out);
     }
 
     vector<T> & returnLevelOrder() {
@@ -341,10 +353,6 @@ class BST {
     void debug_off() {
         this->_debug = false;
     }
-
-    /** NOTE: This is dangerous - I should be using a child class that exposes
-            the root and only exists in the testing harness */
-    Node<T> * getRoot() { return(this->_root); } // Gives out our root pointer for testing
 };
 
 
