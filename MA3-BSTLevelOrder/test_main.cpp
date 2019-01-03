@@ -1,5 +1,5 @@
 /*
- *  Test suite for Big Five Linked List project
+ *  Test suite for BST Level Order (and BigFive) project
  *
  *  Copyright 2018 - intructional use only
  *
@@ -10,7 +10,6 @@
 #include <vector>
 #include <gtest/gtest.h>        // Google C++ testing harness
 #include <gmock/gmock.h>        // Google object mocking library
-//#include <sstream>      // stringstream stream buffer
 
 #include "BST.h"
 

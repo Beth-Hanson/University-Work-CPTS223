@@ -1,5 +1,5 @@
 /*
- *  Test suite for Big Five Linked List project
+ *  Test suite for BST Level Order project
  *
  *  All tests in this file should start with Base*
  * 
@@ -17,148 +17,159 @@ using namespace testing;
 //********* Start of Microassignment LinkedList tests *****************//
 
 //*** Start of Copy Constructor test ***
-/*
-TEST(BaseLinkedListBigFive, CopyConstructor)
+TEST(BaseBSTBigFive, CopyConstructor)
 {
     // Assemble
-    LinkedList<int> firstList{};
-    vector<int> srcVals = {1, 2, 3, 4, 5};
-    for (auto val : srcVals) {
-        firstList.addElement(val);
-    }
+    std::stringstream ssA;       // Buffer to store stream
+    std::stringstream ssB;       // Buffer to store stream
+    TestableBST<int> tree{};
+    vector<int> srcVals = {20, 10, 30, 40, 35, -7, 5, 0};
+    for (auto val : srcVals) 
+        { tree.add(val); }
     // Act
-    LinkedList<int> listCopy{ firstList };      // Executes Copy Constructor
-    vector<int> copyVals = {};
-    for (int i = 0; i < listCopy.getSize(); i++)
-    {
-        copyVals.push_back(listCopy.getElementAt(i));
-    }
-    // Assert
-    ASSERT_NE(firstList.getFront(), listCopy.getFront());
-    ASSERT_THAT(copyVals, ElementsAreArray(srcVals));
+    TestableBST<int> bstCopy{ tree };       // Executes Copy Constructor
+
+    ASSERT_NE(tree.getRoot(), bstCopy.getRoot());   // Shallow copy test
+    tree.printPostOrder(ssA);               // Grab contents
+    bstCopy.printPostOrder(ssB);
+    EXPECT_EQ(ssA.str(), ssB.str());        // Compare contents
+    ASSERT_EQ(tree.size(), bstCopy.size());
+    ASSERT_EQ(tree.height(), bstCopy.height());
 }
-*/
 //*** End of Copy Constructor tests ***
 
 //*** Start of Move Constructor tests ***
-/*
-TEST(BaseLinkedListBigFive, MoveConstructor)
+TEST(BaseBSTBigFive, MoveConstructor)
 {
-    LinkedList<int> firstList{};
-    vector<int> srcVals = {1, 2, 3, 4, 5};
-    for (auto val : srcVals)
-        { firstList.addElement(val); }
-    // Act
-    ListNode<int>* srcFront = firstList.getFront();     // Save pointer for testing
-    LinkedList<int> movedList = std::move(firstList);   // Move constructor
+    std::stringstream ssA;       // Buffer to store stream
+    std::stringstream ssB;       // Buffer to store stream
+    TestableBST<int> treeA{};
+    vector<int> srcVals = {20, 10, 30, 40, 35, -7, 5, 0};
+    string postOrderResult = "0 5 -7 10 35 40 30 20 ";
+    for (auto val : srcVals) 
+        { treeA.add(val); }
+    Node<int>* srcRootA = treeA.getRoot();          // Save root for testing
+    treeA.printPostOrder(ssA);                      // Grab contents of A
 
-    vector<int> movedListVals = {};
-    for (int i = 0; i < movedList.getSize(); i++)
-    {
-        movedListVals.push_back(movedList.getElementAt(i));
-    }
+    // Act
+    TestableBST<int> movedBST = std::move(treeA);   // Move constructor
+
     // Assert
-    ASSERT_EQ(srcFront, movedList.getFront());              // Should be same Nodes
-    ASSERT_THAT(movedListVals, ElementsAreArray(srcVals));  // Elements all in order
-    ASSERT_EQ(srcVals.size(), movedListVals.size());        // No elements lost
-    ASSERT_EQ(srcVals.size(), movedList.getSize());         // List knows size properly
-    ASSERT_EQ(nullptr, firstList.getFront());               // Old list destroyed
-    ASSERT_EQ(0, firstList.getSize());                      // Old list empty
+    movedBST.printPostOrder(ssB);                   // Grab moved nodes in B
+    ASSERT_EQ(srcRootA, movedBST.getRoot());        // Should be same Node
+    EXPECT_EQ(ssA.str(), ssB.str());                // Compare contents
+    EXPECT_EQ(postOrderResult, ssB.str());          // Compare to golden string
+    ASSERT_EQ(srcVals.size(), movedBST.size());     // No elements lost
+    ASSERT_EQ(nullptr, treeA.getRoot());            // Old BST destroyed
+    ASSERT_EQ(0, treeA.size());                     // Old BST empty
 }
-*/
 //*** End of Move Constructor tests ***
 
 //*** Start of Initializer List Constructor tests ***
-/*
-TEST(BaseLinkedListBigFive, InitializerListConstructor)
+TEST(BaseBSTBigFive, InitializerListConstructor)
 {
-    initializer_list<int> srcInitList = { 1, 2, 3, 4, 5 };      // Assemble
-    vector<int> srcVals = {1, 2, 3, 4, 5};
-    LinkedList<int> newList = LinkedList<int>{ srcInitList };   // Act
-    vector<int> newVals;
-    for (int i = 0; i < newList.getSize(); i++) {
-        newVals.push_back(newList.getElementAt(i));
-    }
+    initializer_list<int> srcInitList = {20, 10, 30, 40, 35, -7, 5, 0};
+    string postOrderResult = "0 5 -7 10 35 40 30 20 ";
+
+    // Execute initializer_list constructor
+    BST<int> newBST = BST<int>{ srcInitList };
+
     // Assert
-    ASSERT_EQ( srcInitList.size(), newList.getSize() );         // Size correct?
-    ASSERT_THAT(srcVals, ElementsAreArray(newVals));            // Content correct?
+    std::stringstream ssA;                          // Buffer to store stream
+    newBST.printPostOrder(ssA);                     // Grab moved nodes in B
+    EXPECT_EQ(postOrderResult, ssA.str());          // Compare to golden string
+    ASSERT_EQ(srcInitList.size(), newBST.size());   // Size correct?
 }
-*/
 //*** End of Initializer List Constructor tests ***
 
 //*** Start of Copy *assignment* operator tests ***
-/*
 TEST(BaseLinkedListBigFive, CopyAssignmentOperator)
 {
-    LinkedList<int> firstList{}; 
-    vector<int> srcVals = {1, 2, 3, 4, 5};
+    std::stringstream ssA;
+    std::stringstream ssB;
+    string postOrderResult = "0 5 -7 10 35 40 30 20 ";
+    vector<int> srcVals = {20, 10, 30, 40, 35, -7, 5, 0};
+
+    TestableBST<int> firstBST{}; 
     for (auto val : srcVals)
-        { firstList.addElement(val); }      // Fill the first list up
-    LinkedList<int> copiedList;             // List to copy into via assignment
+        { firstBST.add(val); }              // Fill the first tree
+    TestableBST<int> copiedBST;             // List to copy into via assignment
+
     // Act - Run copy assignment operator
-    copiedList = firstList;                 // Copy assignment operator executed
+    copiedBST = firstBST;                   // Copy assignment operator executed
+
+    firstBST.printPostOrder(ssA);           // Grab contents from both trees
+    copiedBST.printPostOrder(ssB);
+
     // Assert
-    vector<int> copyVals = {};
-    for (int i = 0; i < copiedList.getSize(); i++)
-        { copyVals.push_back(copiedList.getElementAt(i)); }
-    // Assert
-    ASSERT_EQ(srcVals.size(), copiedList.getSize());        // Test size correct
-    ASSERT_NE(firstList.getFront(), copiedList.getFront()); // Test shallow copy (bad)
-    ASSERT_THAT(copyVals, ElementsAreArray(srcVals));       // Test contents
+    ASSERT_NE(firstBST.getRoot(), copiedBST.getRoot()); // Shallow copy (bad)?
+    ASSERT_EQ(srcVals.size(), copiedBST.size());        // Test size correct
+    EXPECT_EQ(ssA.str(), ssB.str());                    // Test contents
+    EXPECT_EQ(postOrderResult, ssB.str());
 }
-*/
 //*** End of Copy *assignment* operator tests ***
 
 //*** Start of Move *assignment* operator tests ***
-/*
 TEST(BaseLinkedListBigFive, MoveAssignmentOperator)
 {
-    LinkedList<int> movedList{};                // Assemble - create our list
+    std::stringstream ssA;
+    std::stringstream ssB;
+    string postOrderResult = "0 5 -7 10 35 40 30 20 ";
+    initializer_list<int> finalInitList = {20, 10, 30, 40, 35, -7, 5, 0};
+    vector<int> finalVals = {20, 10, 30, 40, 35, -7, 5, 0};
+
+    BST<int> movedBST{};                        // Assemble - create our list
     vector<int> srcVals = {1, 2, 3, 4, 5};
-    vector<int> finalVals = {6, 7, 8, 9, 10, 11};
     for (auto val : srcVals)
-        { movedList.addElement(val); }          // Fill list with init data
+        { movedBST.add(val); }                  // Fill list with init data
+
     // Act - execute move assignment operator
     // NOTE: This requires a working initializer_list constructor
-    //  The rvalue on the right of the = operator is built with an intializer_list
-    movedList = LinkedList<int>{6, 7, 8, 9, 10, 11}; // Move assignment op
+    //  The rvalue on the right of the = operator is built 
+    //  with an anonymous initializer_list object
+    movedBST = BST<int>{finalInitList};         // Move assignment op
 
-    vector<int> movedVals = {};
-    for (int i = 0; i < movedList.getSize(); i++)
-        { movedVals.push_back(movedList.getElementAt(i)); }
+    movedBST.printPostOrder(ssA);               // Grab contents
+
     // Assert
-    ASSERT_EQ(finalVals.size(), movedList.getSize());       // Test size correct
-    ASSERT_THAT(finalVals, ElementsAreArray(movedVals));    // Test contents
+    ASSERT_EQ(finalVals.size(), movedBST.size());           // Test size correct
+    EXPECT_EQ(postOrderResult, ssA.str());
 }
-*/
 //*** End of Move *assignment* operator tests ***
 
 //*** Start of Destructor (~) tests ***
-/*
-TEST(BaseLinkedListBigFive, DestructorTests)
-{
-    LinkedList<int> * myList = new LinkedList<int>(); // Assemble - create our list
-    myList->debug_on();                      // Turn on extra LinkedList output
-    vector<int> srcVals = {1, 2, 3, 4, 5};
-    for (auto val : srcVals)
-        { myList->addElement(val); }         // Fill list with init data
-    // Gather white box data
-    ListNode<int> * front = myList->getFront();
-    vector< ListNode<int>* > nodes;
-
-    ListNode<int> * curr_node = front;
-    while( curr_node != nullptr ) {
-        nodes.push_back(curr_node);
-        curr_node = curr_node->getNext();
+int nonNullPtrCount( Node<int> * root ) {
+    int count = 0;
+    if( root == NULL ) return count;
+    if( root->left != NULL )
+    {
+        count = count + 1 + nonNullPtrCount(root->left);
     }
+    if( root->right != NULL )
+    {
+        count = count + 1 + nonNullPtrCount(root->right);
+    }   
+    return(count);
+}
 
-    delete myList;
-    for (auto node : nodes) {
-        ASSERT_EQ(nullptr, node->getNext());
-    } 
+TEST(BaseBSTBigFive, DestructorTests)
+{
+    TestableBST<int> * myBST = new TestableBST<int>();
+    myBST->debug_on();                      // Turn on extra LinkedList output
+    vector<int> srcVals = {20, 10, 30, 40, 35, -7, 5, 0};
+    for (auto val : srcVals)
+        { myBST->add(val); }
+
+    // Gather white box data
+    Node<int> * myRoot = myBST->getRoot();
+    int count = nonNullPtrCount( myRoot );
+    cout << "HOW MANY? " << count << endl;
+
+    delete myBST;
+    ASSERT_EQ(nullptr, myBST->getRoot());     // Is root now NULL?
+    ASSERT_EQ(0, nonNullPtrCount( myRoot ));  // Is old root really cleaned up?
 
 }
-*/
 //*** End of Destructor (~) tests ***
 
 //*** Start of Level Order Tests ***
@@ -177,7 +188,7 @@ TEST(BaseLevelOrder, PrintLevelOrder)
 
 //*** End of Level Order Tests ***
 
-//********* End of Base Microassignment LinkedList tests **************//
+//********* End of Base Microassignment BST tests **************//
 
 
 #endif

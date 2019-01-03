@@ -1,5 +1,5 @@
 /*
- *  Test suite for Big Five Linked List project
+ *  Test suite for BST Level Order project
  *
  *   All tests should begin with Starter* for their group name
  *
