@@ -39,8 +39,8 @@ public:
 
     Node(T val) {
         this->value = val;
-        this->left = NULL;
-        this->right = NULL;
+        this->left = nullptr;
+        this->right = nullptr;
     }
 
     Node(T val, Node<T> * setLeft, Node<T> * setRight) {
@@ -52,8 +52,8 @@ public:
     ~Node()
     {
         this->value = 0;
-        this->left = NULL;
-        this->right = NULL;
+        this->left = nullptr;
+        this->right = nullptr;
     }
 };
 
@@ -70,8 +70,8 @@ class BST {
 
     /* Clone a passed in tree, returns pointer to new tree */
     Node<T> * cloneTree(Node<T> *t) {
-        if( t == NULL )
-            return NULL;
+        if( t == nullptr )
+            return nullptr;
         else
             return new Node<T>( t->value, 
                                 cloneTree( t->left ),
@@ -80,7 +80,7 @@ class BST {
 
     /* Recursively delete the tree nodes */
     void makeEmptyHelper(Node<T> *t) {
-        if( t != NULL ) {
+        if( t != nullptr ) {
             makeEmptyHelper( t->left );
             makeEmptyHelper( t->right );
             delete t;
@@ -163,7 +163,7 @@ class BST {
         }
     }
 
-    /* Return height of tree (root == NULL -> 0) */
+    /* Return height of tree (root == nullptr -> 0) */
     int heightHelper(Node<T> *root) {
         if (!root) {
             return 0;
@@ -187,7 +187,7 @@ class BST {
     bool deleteValueHelper(Node<T>* parent, Node<T>* current, T value) {
         if (!current) return false;
         if (current->value == value) {
-            if (current->left == NULL || current->right == NULL) {
+            if (current->left == nullptr || current->right == nullptr) {
                 Node<T>* temp = current->left;
                 if (current->right) temp = current->right;
                 if (parent) {
@@ -217,7 +217,7 @@ class BST {
     }
 
     bool containsHelper(Node<T> * root, T val) {
-        if( root == NULL )
+        if( root == nullptr )
             return( false );
         else if( root->value == val )
             return( true );
@@ -231,9 +231,9 @@ class BST {
     /********************************* PUBLIC API *****************************/
     public:
 
-    BST( ) : _root( NULL ) { }               // Basic initialization constructor
+    BST( ) : _root( nullptr ) { }               // Basic initialization constructor
 
-    BST( initializer_list<T> vals ) : _root( NULL ) {
+    BST( initializer_list<T> vals ) : _root( nullptr ) {
         for( auto val : vals )
             { this->add(val); }
     }
@@ -250,14 +250,14 @@ class BST {
 
     /* Copy constructor */
     /* MA TODO: Implement */
-    BST( const BST &other ) : _root( NULL ) {
+    BST( const BST &other ) : _root( nullptr ) {
         cout << " [d] Copy constructor called. " << endl;
         cout << " TODO: Implement copy constructor. " << endl;
     }
 
     /* Move constructor */
     /* MA TODO: Implement */
-    BST ( BST && other ) : _root( NULL ) {
+    BST ( BST && other ) : _root( nullptr ) {
         cout << " [d] Move constructor called " << endl;
         cout << " TODO: Implement move constructor. " << endl;
     }
@@ -282,7 +282,7 @@ class BST {
     void makeEmpty( ) {
         if (this->_root) 
             this->makeEmptyHelper(this->_root);
-        this->_root = NULL;
+        this->_root = nullptr;
     }
 
     void add(T val) {
@@ -294,7 +294,7 @@ class BST {
     }
 
     bool empty() {
-        return( this->_root == NULL );
+        return( this->_root == nullptr );
     }
 
     // The print functions take an *optional* ostream handle
@@ -339,7 +339,7 @@ class BST {
     }
 
     bool deleteValue(T value) {
-        return this->deleteValueHelper(NULL, this->_root, value);
+        return this->deleteValueHelper(nullptr, this->_root, value);
     }
 
     bool contains( T value ) {

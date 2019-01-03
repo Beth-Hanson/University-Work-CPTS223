@@ -140,12 +140,12 @@ TEST(BaseLinkedListBigFive, MoveAssignmentOperator)
 //*** Start of Destructor (~) tests ***
 int nonNullPtrCount( Node<int> * root ) {
     int count = 0;
-    if( root == NULL ) return count;
-    if( root->left != NULL )
+    if( root == nullptr ) return count;
+    if( root->left != nullptr )
     {
         count = count + 1 + nonNullPtrCount(root->left);
     }
-    if( root->right != NULL )
+    if( root->right != nullptr )
     {
         count = count + 1 + nonNullPtrCount(root->right);
     }   
@@ -162,11 +162,10 @@ TEST(BaseBSTBigFive, DestructorTests)
 
     // Gather white box data
     Node<int> * myRoot = myBST->getRoot();
-    int count = nonNullPtrCount( myRoot );
-    cout << "HOW MANY? " << count << endl;
 
-    delete myBST;
-    ASSERT_EQ(nullptr, myBST->getRoot());     // Is root now NULL?
+    delete myBST;   // Act - explicitly call destructor on tree
+
+    ASSERT_EQ(nullptr, myBST->getRoot());     // Is root now nullptr?
     ASSERT_EQ(0, nonNullPtrCount( myRoot ));  // Is old root really cleaned up?
 
 }
@@ -186,7 +185,7 @@ TEST(BaseLevelOrder, PrintLevelOrder)
 }
 
 
-//*** End of Level Order Tests ***
+//*** End of BST Level Order Tests ***
 
 //********* End of Base Microassignment BST tests **************//
 
