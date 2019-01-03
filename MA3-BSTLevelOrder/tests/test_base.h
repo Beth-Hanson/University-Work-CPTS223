@@ -165,9 +165,7 @@ TEST(BaseBSTBigFive, DestructorTests)
 
     delete myBST;   // Act - explicitly call destructor on tree
 
-    ASSERT_EQ(nullptr, myBST->getRoot());     // Is root now nullptr?
     ASSERT_EQ(0, nonNullPtrCount( myRoot ));  // Is old root really cleaned up?
-
 }
 //*** End of Destructor (~) tests ***
 
