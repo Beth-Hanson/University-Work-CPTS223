@@ -35,7 +35,7 @@ stages:
     - run
 
 # MA1 is the Hello World assignment
-MA1-build:
+MA1-HelloWorld-build:
   stage: build
   script:
     - cd MA1
@@ -45,7 +45,7 @@ MA1-build:
     - linux
     - docker
 
-MA1-test:
+MA1-HelloWorld-Starter:
   stage: starter-tests
   script:
     - cd MA1
@@ -53,6 +53,19 @@ MA1-test:
   tags:
     - linux
     - docker
+
+MA1-HelloWorld-Base:
+  stage: base-tests
+  script:
+    - cd MA1
+    - bash test_screenshot.sh
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+  artifacts:
+    paths:
+      - MA1/screenshot/
 
 #MA1-coverage:
 #  stage: test
