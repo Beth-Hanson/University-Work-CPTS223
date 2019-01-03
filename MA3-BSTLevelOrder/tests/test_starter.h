@@ -22,8 +22,8 @@ TEST(StarterNode, BasicInitializer)
     Node<int> node = Node<int>(testValue);
     // Assert
     ASSERT_EQ(testValue, node.value);
-    ASSERT_EQ(NULL, node.left);
-    ASSERT_EQ(NULL, node.right);
+    ASSERT_EQ(nullptr, node.left);
+    ASSERT_EQ(nullptr, node.right);
 }
 
 TEST(StarterNode, InitializeChildren)
@@ -138,7 +138,7 @@ TEST(StarterBST, MakeEmpty)
     ASSERT_EQ(true, tree.empty());          // Should be true
     ASSERT_EQ(0, tree.size());              // Should be zero
     ASSERT_EQ(0, tree.height());            // Height is zero now
-    ASSERT_EQ(nullptr, tree.getRoot());        // Root should be NULL
+    ASSERT_EQ(nullptr, tree.getRoot());        // Root should be nullptr
         // Should also check to ensure all nodes were freed, not just forgotten
 }
 
