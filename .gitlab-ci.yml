@@ -39,11 +39,14 @@ stages:
     before_script:
         - echo "http://dl-3.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
         - echo "http://dl-3.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-        - apk add --update g++ make gmock gtest gtest-dev
+        - apk add --update g++ make gmock gtest gtest-dev bash
     script:
         - cd $ASSIGNMENT_DIR
-        - TEST_TARGETS=($(make list)) # This list is sorted. Assume there is a job for each test task.
-        - make ${TEST_TARGETS[$((${CI_NODE_INDEX:-1) - 1))}
+        # This list is sorted. Assume there is a job for each test task
+        # (Most importantly that there are no excess jobs).
+        - >-
+            bash -c 'TEST_TARGETS=($(make list)) &&
+            make ${TEST_TARGETS[$((${CI_NODE_INDEX:-1) - 1))}'
     tags:
         - linux
         - docker
