@@ -42,7 +42,8 @@ stages:
         - apk add --update g++ make gmock gtest gtest-dev
     script:
         - cd $ASSIGNMENT_DIR
-        - make test
+        - TEST_TARGETS=($(make list)) # This list is sorted. Assume there is a job for each test task.
+        - make ${TEST_TARGETS[$((CI_NODE_INDEX - 1))}
     tags:
         - linux
         - docker
@@ -77,6 +78,7 @@ MA1-test:
     extends: .test
     variables:
         ASSIGNMENT_DIR: "MA1"
+    parallel: 1
 
 #MA1-coverage:
 #  extends: .coverage
@@ -92,9 +94,10 @@ MA2-BigFive-build:
         ASSIGNMENT_DIR: "MA2-BigFive"
 
 MA2-BigFive-test:
-  extends: .test
+    extends: .test
     variables:
         ASSIGNMENT_DIR: "MA2-BigFive"
+    parallel: 6
 # END of MA2 - Big Five assignment
 
 #******************************** MA3 ****************************#
