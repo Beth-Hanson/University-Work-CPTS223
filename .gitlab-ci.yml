@@ -46,7 +46,7 @@ stages:
         # (Most importantly that there are no excess jobs).
         - >-
             bash -c 'TEST_TARGETS=($(make list)) &&
-            make ${TEST_TARGETS[$((${CI_NODE_INDEX:-1) - 1))}]}'
+            make ${TEST_TARGETS[$((${CI_NODE_INDEX:-1} - 1))]}'
     tags:
         - linux
         - docker
