@@ -43,7 +43,7 @@ stages:
     script:
         - cd $ASSIGNMENT_DIR
         - TEST_TARGETS=($(make list)) # This list is sorted. Assume there is a job for each test task.
-        - make ${TEST_TARGETS[$((CI_NODE_INDEX - 1))}
+        - make ${TEST_TARGETS[$((${CI_NODE_INDEX:-1) - 1))}
     tags:
         - linux
         - docker
@@ -78,7 +78,6 @@ MA1-test:
     extends: .test
     variables:
         ASSIGNMENT_DIR: "MA1"
-    parallel: 1
 
 #MA1-coverage:
 #  extends: .coverage
