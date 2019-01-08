@@ -16,6 +16,7 @@ TESTFLAGS   = -fprofile-arcs -ftest-coverage
 BINDIR      = bin
 LCOVINFO    = coverage.info
 COVHTMLDIR  = coverage_report
+SCREENSHOT_TEST = test_screenshot.sh
 
 # Default is what happenes when you call make with no options
 #  In this case, it requires that 'all' is completed
@@ -38,10 +39,18 @@ run: build
 	./$(BINDIR)/$(BINNAME)
 
 # Test the program - first build to ensure it works
-test: build
+starter-tests: build
 	@echo "Testing the $(BINNAME) program."
 	$(GPP) $(CFLAGS) $(TESTFLAGS) -o $(BINDIR)/$(TESTNAME) $(TESTNAME).cpp $(GTESTFLAGS)
 	./$(BINDIR)/$(TESTNAME)
+
+# Check for the screenshot file. This is a PHONY target, this means that there
+#   are no files that it depends on being changed to run. This is done as
+#   the file in question is of an unknown name and changes to the test itself
+#   do not dictate when this needs to be run
+.PHONY: base-tests
+base-tests: 
+	@bash $(SCREENSHOT_TEST)
 
 # Generate a code coverage report to show our unit testing is working
 #  gcov is installed with g++ by default
