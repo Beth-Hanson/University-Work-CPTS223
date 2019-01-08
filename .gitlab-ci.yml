@@ -74,11 +74,8 @@ MA1-build:
 
 # Run the MA1 tests. NOTE: MA1 is a special case here as it doesn't have starter
 #   + base tests, but rather just tests
-MA1-tests:
-    extends: .test
-    stage: base-tests
-    script:
-        - make test
+MA1-starter-tests:
+    extends: .starter-tests
     variables:
         ASSIGNMENT_DIR: "MA1"
 
