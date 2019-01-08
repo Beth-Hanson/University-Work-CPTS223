@@ -74,13 +74,13 @@ MA1-build:
 
 # Run the MA1 tests. NOTE: MA1 is a special case here as it doesn't have starter
 #   + base tests, but rather just tests
-MA1-starter-tests:
+MA1-HelloWorld-starter-tests:
     extends: .starter-tests
     variables:
         ASSIGNMENT_DIR: "MA1"
 
 # Run the base code tests
-MA1-base-tests:
+MA1-HelloWorld-base-tests:
     extends: .base-tests
     variables:
         ASSIGNMENT_DIR: "MA1"
