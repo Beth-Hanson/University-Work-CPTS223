@@ -164,21 +164,45 @@ Date: 01/27/19 */
         if(_debug)
             { cout << " [x] Copy Constructor executed. " << endl; }
         // Copy every element in other to ourselves
-        if (this != &other){
-            if (_front != nullptr){
-                for(int i = 0;i < _size; i++){
-                    //delete
-                }
-            }
-            _front = new ListNode<T>();
-            ListNode<T> *temp = _front;
-            for (int i = 0; i<other->getSize()){
-                T data = other->getElementAt(i);
-                temp->_value = data;
-                //add node to list
-                // make new node and link to list
-            }
-        }
+        //Array Example
+        //don't copy ourselves!
+		// if (this != &other)
+		// {
+		// 	//delete existing contents if they exit
+		// 	if (_items != nullptr)
+		// 	{
+		// 		delete[] _items;
+		// 	}
+
+		// 	//allocate space for new items
+		// 	_max_size = other.getSize() + 1;
+		// 	_number_of_items = other.getSize();
+		// 	_items = new T[_max_size];
+
+		// 	//make copies of other's items
+		// 	for (int i = 0; i < _number_of_items; i++)
+		// 	{
+		// 		T item = other.getElementAt(i);
+		// 		_items[i] = item;
+		// 	}
+		// }
+
+        //Me
+        // if (this != &other){
+        //     if (_front != nullptr){
+        //         for(int i = 0;i < _size; i++){
+        //             //delete
+        //         }
+        //     }
+        //     _front = new ListNode<T>();
+        //     ListNode<T> *temp = _front;
+        //     for (int i = 0; i<other->getSize()){
+        //         T data = other->getElementAt(i);
+        //         temp->_value = data;
+        //         //add node to list
+        //         // make new node and link to list
+        //     }
+        // }
        
     }
 
@@ -193,6 +217,17 @@ Date: 01/27/19 */
         //  Also copy their class varibles (_last_accessed_index, etc)
 
         // Reset pointers in other to nullptr
+
+        //Array Example
+        //get other's meta data
+		// _max_size = other._max_size;
+		// _number_of_items = other._number_of_items;
+
+		// //then steal its pointer
+		// _items = other._items;
+
+		// //and give it nullptr instead
+		// other._items = nullptr;
     }
 
 
@@ -202,8 +237,13 @@ Date: 01/27/19 */
     {
         cout << " [x] Initializer List Constructor executed. " << endl;
         // Add a copy of every element in values to ourselves
-        
-        
+        _front = nullptr;
+        _end = _front;
+        _debug = false;
+        for (auto item: values){
+            addElement(item);
+        }
+      
     }
 
 
@@ -215,6 +255,17 @@ Date: 01/27/19 */
             cout << "  [x] LinkedList Destructor executed. " << endl;
         }
         // Delete every node in our internal linked list
+        if(_front != nullptr){
+            ListNode<T> *temp = _front;
+            while (_end != _front){
+                while(temp->getNext() != _end){
+                    temp = temp->getNext();
+                }
+                delete _end;
+                _end = temp;
+            }
+            delete _end;
+        }
     }
 
     // Copy assignment operator
@@ -227,6 +278,31 @@ Date: 01/27/19 */
         // Delete our elements
 
         // Add in copies of other's elements
+        //Array Example
+        // //remove existing items if we have any
+		// if (this->_items != nullptr)
+		// {
+		// 	delete[] _items;
+		// }
+
+		// //allocate new space
+		// _items = new T[other.getSize()];
+		
+		// //copy other's meta data
+		// _max_size = other._max_size;
+		// _number_of_items = other._number_of_items;
+
+		// //copy other's items
+		// for (int i = 0; i < other.getSize(); i++)
+		// {
+		// 	setElementAt(other.getElementAt(i), i);
+		// }
+
+		// //Kind of goofy syntax, but we need to return a reference to ourselves.  Recall that
+		// //"this" refers to whatever object is calling this code.  Also recall that "this"
+		// //is a pointer, so we have to dereference us in order to return ourselves as a 
+		// //reference.
+		// return *this;
 
         return *this;
     }
@@ -242,6 +318,25 @@ Date: 01/27/19 */
         // Grab other data for ourselves
 
         // Reset their pointers to nullptr
+        //Array Example
+        // //take care of any information we already have before stealing other's data
+		// if (_items != nullptr)
+		// {
+		// 	delete[] _items;
+		// }
+
+		// //get other's meta data
+		// _max_size = other._max_size;
+		// _number_of_items = other._number_of_items;
+
+		// //then steal its pointer
+		// _items = other._items;
+
+		// //and give it nullptr instead
+		// other._items = nullptr;
+
+		// //return a reference to ourselves
+		// return *this;
 
         return *this;
     }
