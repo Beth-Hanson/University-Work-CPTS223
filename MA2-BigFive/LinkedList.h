@@ -151,6 +151,11 @@ public:
 
 //***************************************************************************//
 // START Microassigment zone - all code you need to change is here
+/*Programmer: Beth Hanson
+Class: CptS 223, Spring 2019
+Programming Assignment: MA2 BigFive
+File: LinkedList.h
+Date: 01/27/19 */
 
     // Copy constructor
     //  MA TODO: Implement!
@@ -159,6 +164,22 @@ public:
         if(_debug)
             { cout << " [x] Copy Constructor executed. " << endl; }
         // Copy every element in other to ourselves
+        if (this != &other){
+            if (_front != nullptr){
+                for(int i = 0;i < _size; i++){
+                    //delete
+                }
+            }
+            _front = new ListNode<T>();
+            ListNode<T> *temp = _front;
+            for (int i = 0; i<other->getSize()){
+                T data = other->getElementAt(i);
+                temp->_value = data;
+                //add node to list
+                // make new node and link to list
+            }
+        }
+       
     }
 
 
@@ -181,6 +202,8 @@ public:
     {
         cout << " [x] Initializer List Constructor executed. " << endl;
         // Add a copy of every element in values to ourselves
+        
+        
     }
 
 
