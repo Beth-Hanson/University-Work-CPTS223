@@ -257,29 +257,17 @@ Date: 01/27/19 */
     {
         // Note: might want to make sure we don't copy ourselves!
         cout << " [x] Copy *assignment* operator called. " << endl;
-        //ListNode<T> *temp = this->_front;
         // Delete our elements
-        // if (this->_front != nullptr){
-        //     while (this->_end != this->_front){
-        //         while (temp->getNext() != this->_end){
-        //             temp = temp->getNext();                    
-        //         }
-        //         delete _end;
-        //         _end = temp;
-        //     }
-        //     delete _end;
-        // }
-        // this->_size = 0;
-        // this->_last_accessed_index = 0;
-        // delete _last_accessed_node;
-        // this->_debug = false;
-        // // Add in copies of other's elements
-        // this->_debug = other._debug;
-        // this->_last_accessed_index = other._last_accessed_index;
-        // this->_last_accessed_node = other._last_accessed_node;
-        // for (int i = 0; i < other.getSize(); i++){
-        //     this->setElementAt(other.getElementAt(i), i);
-        // }
+        if (this->_front != nullptr){
+            this->~LinkedList();
+        }
+        //Add in copies of other's elements
+        this->_debug = other._debug;
+        this->_last_accessed_index = other._last_accessed_index;
+        this->_last_accessed_node = other._last_accessed_node;
+        for (int i = 0; i < other.getSize(); i++){
+            this->setElementAt(other.getElementAt(i), i);
+        }
         return *this;
     }
 
@@ -290,36 +278,23 @@ Date: 01/27/19 */
     {
         cout << " [x] Move *assignment* operator called. " << endl;
         // Delete our own elements
-        // ListNode<T> *temp = _front;
-        // if(this != &other){
-        //     if(_front != nullptr){
-        //         while (_end != _front){
-        //             while(temp->getNext() != _end){
-        //                 temp = temp->getNext();
-        //             }
-        //             delete _end;
-        //             _end = temp;
-        //         }
-        //         delete _end;
-        //     } 
-        // _size = 0;
-        // this->_last_accessed_index = 0;
-        // delete _last_accessed_node;
-        // this->_debug = false;
-        // // Grab other data for ourselves
-        // _front = other._front;
-        // _end = other._end;
-        // _size = other._size;
-        // _last_accessed_index = other._last_accessed_index;
-        // *_last_accessed_node = other._last_accessed_index;
-        // _debug = other._debug;
-        // // Reset their pointers to nullptr
-        // other._debug = false;
-        // other._last_accessed_node = nullptr;
-        // other._last_accessed_index = 0;
-        // other._size = 0;
-        // other._end = nullptr;
-        // other._front = nullptr;
+        if (_front != nullptr){
+            this->~LinkedList();
+        }
+        // Grab other data for ourselves
+        _end = other._end;
+        _front = other._front;
+        _size = other._size;
+        _last_accessed_index = other._last_accessed_index;
+        *_last_accessed_node = other._last_accessed_index;
+        _debug = other._debug;
+        // Reset their pointers to nullptr
+        other._debug = false;
+        other._last_accessed_node = nullptr;
+        other._last_accessed_index = 0;
+        other._size = 0;
+        other._end = nullptr;
+        other._front = nullptr;
         return *this;
     }
 
