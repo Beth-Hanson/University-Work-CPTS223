@@ -164,19 +164,18 @@ Date: 01/27/19 */
         if(_debug)
             { cout << " [x] Copy Constructor executed. " << endl; }
         // Copy every element in other to ourselves
-        ListNode<T> *temp = _front;
         if(this != &other){
             if(_front != nullptr){
-                while (_end != _front){
-                    while(temp->getNext() != _end){
-                        temp = temp->getNext();
-                    }
-                    delete _end;
-                    _end = temp;
-                }
-                delete _end;
+                this->~LinkedList();
             } 
             _size = 0;
+            this->_last_accessed_index = 0;
+            delete _last_accessed_node;
+            this->_debug = false;
+
+            this->_debug = other._debug;
+            this->_last_accessed_index = other._last_accessed_index;
+            this->_last_accessed_node = other._last_accessed_node;
             for (int i = 0; i < other.getSize(); i++){
                 T value = other.getElementAt(i);
                 this->addElement(value);
@@ -192,20 +191,21 @@ Date: 01/27/19 */
         if(_debug)
             { cout << " [x] Move Constructor executed. " << endl; }
         // Copy the pointers within other to ourselves
+        
         //  Also copy their class varibles (_last_accessed_index, etc)
-        _front = other._front;
-        _end = other._end;
-        _size = other._size;
-        _last_accessed_index = other._last_accessed_index;
-        *_last_accessed_node = other._last_accessed_index;
-        _debug = other._debug;
-        // Reset pointers in other to nullptr
-        other._debug = false;
-        other._last_accessed_node = nullptr;
-        other._last_accessed_index = 0;
-        other._size = 0;
-        other._end = nullptr;
-        other._front = nullptr;
+        // _front = other._front;
+        // _end = other._end;
+        // _size = other._size;
+        // _last_accessed_index = other._last_accessed_index;
+        // *_last_accessed_node = other._last_accessed_index;
+        // _debug = other._debug;
+        // // Reset pointers in other to nullptr
+        // other._debug = false;
+        // other._last_accessed_node = nullptr;
+        // other._last_accessed_index = 0;
+        // other._size = 0;
+        // other._end = nullptr;
+        // other._front = nullptr;
     }
 
 
@@ -244,6 +244,10 @@ Date: 01/27/19 */
             }
             delete _end;
         }
+        this->_debug = false;
+        this->_last_accessed_index = 0;
+        delete this->_last_accessed_node;
+        this->_size = 0;
     }
 
     // Copy assignment operator
@@ -252,36 +256,29 @@ Date: 01/27/19 */
     {
         // Note: might want to make sure we don't copy ourselves!
         cout << " [x] Copy *assignment* operator called. " << endl;
-
+        //ListNode<T> *temp = this->_front;
         // Delete our elements
-
-        // Add in copies of other's elements
-        //Array Example
-        // //remove existing items if we have any
-		// if (this->_items != nullptr)
-		// {
-		// 	delete[] _items;
-		// }
-
-		// //allocate new space
-		// _items = new T[other.getSize()];
-		
-		// //copy other's meta data
-		// _max_size = other._max_size;
-		// _number_of_items = other._number_of_items;
-
-		// //copy other's items
-		// for (int i = 0; i < other.getSize(); i++)
-		// {
-		// 	setElementAt(other.getElementAt(i), i);
-		// }
-
-		// //Kind of goofy syntax, but we need to return a reference to ourselves.  Recall that
-		// //"this" refers to whatever object is calling this code.  Also recall that "this"
-		// //is a pointer, so we have to dereference us in order to return ourselves as a 
-		// //reference.
-		// return *this;
-
+        // if (this->_front != nullptr){
+        //     while (this->_end != this->_front){
+        //         while (temp->getNext() != this->_end){
+        //             temp = temp->getNext();                    
+        //         }
+        //         delete _end;
+        //         _end = temp;
+        //     }
+        //     delete _end;
+        // }
+        // this->_size = 0;
+        // this->_last_accessed_index = 0;
+        // delete _last_accessed_node;
+        // this->_debug = false;
+        // // Add in copies of other's elements
+        // this->_debug = other._debug;
+        // this->_last_accessed_index = other._last_accessed_index;
+        // this->_last_accessed_node = other._last_accessed_node;
+        // for (int i = 0; i < other.getSize(); i++){
+        //     this->setElementAt(other.getElementAt(i), i);
+        // }
         return *this;
     }
 
@@ -292,30 +289,36 @@ Date: 01/27/19 */
     {
         cout << " [x] Move *assignment* operator called. " << endl;
         // Delete our own elements
-
-        // Grab other data for ourselves
-
-        // Reset their pointers to nullptr
-        //Array Example
-        // //take care of any information we already have before stealing other's data
-		// if (_items != nullptr)
-		// {
-		// 	delete[] _items;
-		// }
-
-		// //get other's meta data
-		// _max_size = other._max_size;
-		// _number_of_items = other._number_of_items;
-
-		// //then steal its pointer
-		// _items = other._items;
-
-		// //and give it nullptr instead
-		// other._items = nullptr;
-
-		// //return a reference to ourselves
-		// return *this;
-
+        // ListNode<T> *temp = _front;
+        // if(this != &other){
+        //     if(_front != nullptr){
+        //         while (_end != _front){
+        //             while(temp->getNext() != _end){
+        //                 temp = temp->getNext();
+        //             }
+        //             delete _end;
+        //             _end = temp;
+        //         }
+        //         delete _end;
+        //     } 
+        // _size = 0;
+        // this->_last_accessed_index = 0;
+        // delete _last_accessed_node;
+        // this->_debug = false;
+        // // Grab other data for ourselves
+        // _front = other._front;
+        // _end = other._end;
+        // _size = other._size;
+        // _last_accessed_index = other._last_accessed_index;
+        // *_last_accessed_node = other._last_accessed_index;
+        // _debug = other._debug;
+        // // Reset their pointers to nullptr
+        // other._debug = false;
+        // other._last_accessed_node = nullptr;
+        // other._last_accessed_index = 0;
+        // other._size = 0;
+        // other._end = nullptr;
+        // other._front = nullptr;
         return *this;
     }
 
