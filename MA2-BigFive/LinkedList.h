@@ -168,11 +168,6 @@ Date: 01/27/19 */
             if(_front != nullptr){
                 this->~LinkedList();
             } 
-            _size = 0;
-            this->_last_accessed_index = 0;
-            delete _last_accessed_node;
-            this->_debug = false;
-
             this->_debug = other._debug;
             this->_last_accessed_index = other._last_accessed_index;
             this->_last_accessed_node = other._last_accessed_node;
@@ -191,21 +186,24 @@ Date: 01/27/19 */
         if(_debug)
             { cout << " [x] Move Constructor executed. " << endl; }
         // Copy the pointers within other to ourselves
-        
-        //  Also copy their class varibles (_last_accessed_index, etc)
-        // _front = other._front;
-        // _end = other._end;
-        // _size = other._size;
-        // _last_accessed_index = other._last_accessed_index;
-        // *_last_accessed_node = other._last_accessed_index;
-        // _debug = other._debug;
-        // // Reset pointers in other to nullptr
-        // other._debug = false;
-        // other._last_accessed_node = nullptr;
-        // other._last_accessed_index = 0;
-        // other._size = 0;
-        // other._end = nullptr;
-        // other._front = nullptr;
+            this->_debug = other._debug;
+            for (int i = 0; i < other.getSize(); i++){
+                T value = other.getElementAt(i);
+                this->addElement(value);
+            }          
+         //Also copy their class varibles (_last_accessed_index, etc)
+        _front = other._front;
+        _end = other._end;
+        _size = other._size;
+        _last_accessed_index = other._last_accessed_index;
+        *_last_accessed_node = other._last_accessed_index;
+        // Reset pointers in other to nullptr
+        other._debug = false;
+        other._last_accessed_node = nullptr;
+        other._last_accessed_index = 0;
+        other._size = 0;
+        other._end = nullptr;
+        other._front = nullptr;
     }
 
 
@@ -218,6 +216,9 @@ Date: 01/27/19 */
         _front = nullptr;
         _end = _front;
         _debug = false;
+        this->_size = 0;
+        this->_last_accessed_index = 0;
+        this->_last_accessed_node = nullptr;
         for (auto item: values){
             addElement(item);
         }
