@@ -164,46 +164,24 @@ Date: 01/27/19 */
         if(_debug)
             { cout << " [x] Copy Constructor executed. " << endl; }
         // Copy every element in other to ourselves
-        //Array Example
-        //don't copy ourselves!
-		// if (this != &other)
-		// {
-		// 	//delete existing contents if they exit
-		// 	if (_items != nullptr)
-		// 	{
-		// 		delete[] _items;
-		// 	}
-
-		// 	//allocate space for new items
-		// 	_max_size = other.getSize() + 1;
-		// 	_number_of_items = other.getSize();
-		// 	_items = new T[_max_size];
-
-		// 	//make copies of other's items
-		// 	for (int i = 0; i < _number_of_items; i++)
-		// 	{
-		// 		T item = other.getElementAt(i);
-		// 		_items[i] = item;
-		// 	}
-		// }
-
-        //Me
-        // if (this != &other){
-        //     if (_front != nullptr){
-        //         for(int i = 0;i < _size; i++){
-        //             //delete
-        //         }
-        //     }
-        //     _front = new ListNode<T>();
-        //     ListNode<T> *temp = _front;
-        //     for (int i = 0; i<other->getSize()){
-        //         T data = other->getElementAt(i);
-        //         temp->_value = data;
-        //         //add node to list
-        //         // make new node and link to list
-        //     }
-        // }
-       
+        ListNode<T> *temp = _front;
+        if(this != &other){
+            if(_front != nullptr){
+                while (_end != _front){
+                    while(temp->getNext() != _end){
+                        temp = temp->getNext();
+                    }
+                    delete _end;
+                    _end = temp;
+                }
+                delete _end;
+            } 
+            _size = 0;
+            for (int i = 0; i < other.getSize(); i++){
+                T value = other.getElementAt(i);
+                this->addElement(value);
+            }          
+        }
     }
 
 
@@ -215,19 +193,19 @@ Date: 01/27/19 */
             { cout << " [x] Move Constructor executed. " << endl; }
         // Copy the pointers within other to ourselves
         //  Also copy their class varibles (_last_accessed_index, etc)
-
+        _front = other._front;
+        _end = other._end;
+        _size = other._size;
+        _last_accessed_index = other._last_accessed_index;
+        *_last_accessed_node = other._last_accessed_index;
+        _debug = other._debug;
         // Reset pointers in other to nullptr
-
-        //Array Example
-        //get other's meta data
-		// _max_size = other._max_size;
-		// _number_of_items = other._number_of_items;
-
-		// //then steal its pointer
-		// _items = other._items;
-
-		// //and give it nullptr instead
-		// other._items = nullptr;
+        other._debug = false;
+        other._last_accessed_node = nullptr;
+        other._last_accessed_index = 0;
+        other._size = 0;
+        other._end = nullptr;
+        other._front = nullptr;
     }
 
 
