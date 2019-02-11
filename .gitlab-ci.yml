@@ -80,6 +80,7 @@ MA1-HelloWorld-Base:
 #      - MA1/coverage_report
 # MA1 End of Hello World
 
+#******************************** MA2 ****************************#
 # MA2 is the Big Five assignment
 MA2-BigFive-build:
   stage: build
@@ -112,3 +113,102 @@ MA2-BigFive-base-tests:
     - linux
     - docker
 # END of MA2 - Big Five assignment
+
+#******************************** MA3 ****************************#
+# MA3 is the BST Level Order (and Big Five) project
+MA3-BSTLevelOrder-build:
+  stage: build
+  script:
+    - cd MA3-BSTLevel
+    - make build
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+
+# Run the starter code tests
+MA3-BSTLevelOrder-starter-tests:
+  stage: starter-tests
+  script:
+    - cd MA3-BSTLevel
+    - make starter-tests
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+
+# Run the base code tests
+MA3-BSTLevelOrder-base-tests:
+  stage: base-tests
+  script:
+    - cd MA3-BSTLevel
+    - make base-tests
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+# END of MA3 - BST Level Order (and Big Five) project
+#*************************** Microassignments End ***********************#
+
+#**************************** Homeworks Start ***************************#
+# HW1 Start - Run a test to find the PDF of the homework
+HW1-PDF-Check-Tests:
+  stage: base-tests
+  script:
+    - cd HW1-BigO-Linux
+    - sh ./test.sh
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+# END HW1 Tests
+
+# HW2 Start - Run a test to find the PDF of the homework
+HW2-PDF-Check-Tests:
+  stage: base-tests
+  script:
+    - cd HW2-Trees
+    - make test
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+# END HW2 Tests
+#******************************* Homeworks END ***************************#
+
+#***************************** Programming Assignments Start *************#
+#******************************** PA1 ****************************#
+# PA1 is the AVL project
+PA1-AVL-build:
+  stage: build
+  script:
+    - cd PA1-AVLTree
+    - make build
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+
+# Run the starter code tests
+PA1-AVL-starter-tests:
+  stage: starter-tests
+  script:
+    - cd PA1-AVLTree
+    - make starter-tests
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+
+# Run the base code tests
+PA1-AVL-base-tests:
+  stage: base-tests
+  script:
+    - cd PA1-AVLTree
+    - make base-tests
+  allow_failure: true
+  tags:
+    - linux
+    - docker
+# END of PA1 - AVL Tree Implementation
+#***************************** Programming Assignments End   *************#
