@@ -16,6 +16,10 @@
  *
  */
 
+/*Name: Elisabeth Hanson
+* Class: Cpts 223
+* Assignment: MA3*/
+
 #ifndef __BST_H
 #define __BST_H
 
@@ -141,11 +145,15 @@ class BST {
     /* MA TODO: Implement */
     void printLevelOrderHelper(Node<T> *root, std::ostream& out) {
         if (!root) return;
-        out << endl;
-        out << "printLevelOrderHelper UNIMPLEMENTED AT THIS TIME -- REPLACE!" << endl;
-        out << " ** Required to use the STL queue class (that's a huge hint)!" << endl;
-        out << " ** Doing this with a loop will be easier than recursion." << endl;
-        out << " ** Your code MUST print to 'out' not 'cout' to work - see printInOrder()." << endl;
+        queue<Node<T>*> queue;
+        Node<T> *temp = root;
+        while (temp != nullptr){
+        out << temp->value<<"\ ";
+        queue.push(temp->left);
+        queue.push(temp->right);
+        temp = queue.front();
+        queue.pop();
+        }
     }
 
     /* Return number of nodes in tree */
@@ -239,6 +247,7 @@ class BST {
         if( this->_debug ) {
             cout << " TODO: Implement destructor to free *whole* tree. " << endl;
         }
+        this->makeEmpty();
     }
 
     /* Copy constructor */
@@ -247,7 +256,10 @@ class BST {
         if( this->_debug ) {
             cout << " [d] Copy constructor called. " << endl;
         }
-        cout << " TODO: Implement copy constructor. " << endl;
+        if (this->_root != nullptr){
+            this->makeEmpty();
+        }
+        _root = cloneTree(other._root);
     }
 
     /* Move constructor */
@@ -256,7 +268,14 @@ class BST {
         if( this->_debug ) {
             cout << " [d] Move constructor called " << endl;
         }
-        cout << " TODO: Implement move constructor. " << endl;
+        if (_root != nullptr){
+             makeEmpty();
+        }
+        _root = cloneTree(other._root);
+        _debug = other._debug;
+        if (other._root != nullptr){
+            other.makeEmpty();
+        }
     }
 
     /* Copy assignment operator */
@@ -265,7 +284,10 @@ class BST {
         if( this->_debug ) {
             cout << " [d] Copy assignment operator called. " << endl;
         }
-        cout << " TODO: Implement copy assignment operator. " << endl;
+        if (_root != nullptr){
+            makeEmpty();
+        }
+        _root = cloneTree(other._root);
         return * this;
     }
 
@@ -275,7 +297,13 @@ class BST {
         if( this->_debug ) {
             cout << " [d] Move assignment operator called. " << endl;
         }
-        cout << " TODO: Implement move assignment operator. " << endl;
+        if (_root != nullptr){
+             makeEmpty();
+        }
+        _root = cloneTree(other._root);
+        if (other._root != nullptr){
+            other.makeEmpty();
+        }
         return * this;
     }
 
