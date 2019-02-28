@@ -40,6 +40,9 @@ class AVLNode
     {
         nodeCount--;    // Leave in for testing total nodes created/destroyed
                         // You can add more contents if you need
+        this->val = 0;
+        this->left = nullptr;
+        this->right = nullptr;
     }
 };
 
