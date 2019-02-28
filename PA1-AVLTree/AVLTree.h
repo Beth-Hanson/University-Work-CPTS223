@@ -18,16 +18,16 @@
 // AVLTree class
 // ******************PUBLIC OPERATIONS*********************
 // bool empty( )          --> Test for emptynode                Done
-// int size( )            --> Quantity of elements innode       One Failed Test
+// int size( )            --> Quantity of elements innode       Failed Tests
 // int height( )          --> Height of thenode (nullptr == -1) Done
 // void add( x )          --> Insert new value x                Done
-// void remove( x )       --> Remove node with value x          Done?
-// void clear ( )         --> Removes all elements fromnode     Done?
-// bool contains( x )     --> Return true if x is present       Done?
+// void remove( x )       --> Remove node with value x          Done Unknown issue
+// void clear ( )         --> Removes all elements fromnode     Done
+// bool contains( x )     --> Return true if x is present       Done
 // T findMin( )           --> Return smallest item value        Done
 // T findMax( )           --> Return largest item value         Done
 // void printPreOrder( )  --> Printnode in pre order to an ostream
-// void ~AVLTree( )       --> Big Five Destructor               
+// void ~AVLTree( )       --> Big Five Destructor               Done           
 // AVLTree( )             --> Basic constructor                 
 using std::max;
 
@@ -39,6 +39,10 @@ private:
 
 public:
     AVLTree() : _root(nullptr) {}    // initializes root to nullptr
+
+    ~AVLTree(){
+        this->clear();
+    }
 
     /* Returns true if thenode is empty */
     bool empty() {
@@ -58,7 +62,8 @@ public:
 
     void remove(const T & remVal) {
         // TODO: Implemente properly removing a node and rebalancing thenode
-        deleteNode(_root, remVal);
+      // AVLNode<T> *deadNode = deleteNode(_root, remVal);
+      deleteNode(_root, remVal);
     }
 
     void clear() {
@@ -95,7 +100,12 @@ public:
     }
 
     int size() {
-        return _root->nodeCount;
+        if (_root->nodeCount >= 0) { 
+            return _root->nodeCount;
+        }
+        else{
+            return 0;
+        }
         // TODO: Return the size of thenode (number of nodes in thenode)
     }
 
@@ -238,107 +248,65 @@ private:
     }
 
     void deleteNode(AVLNode<T> *& node, const T & remVal){
-        if (node != nullptr){
-            if(remVal < node->val){
-                deleteNode(node->left, remVal);
+       if (!node) return; //node;
+       if (remVal < node->val){
+           //node->left = deleteNode(node->left, remVal);
+           deleteNode(node->left, remVal);
+       }
+       else if (remVal > node->val){
+           //node->right = deleteNode(node->right, remVal);
+           deleteNode(node->right, remVal);
+       }
+       else{
+           if(node->left == nullptr || node->right == nullptr){
+               //fix if fails
+               AVLNode<T> *temp = node;
+               node = node->left ? node->left : node->right;
+               temp->~AVLNode();
+               delete temp;
+               //return node;
+           }
+           else{
+                AVLNode<T> *temp = findSmall(node->right);
+                node->val = temp->val;
+                //node->right = deleteNode(node->right, temp->val);
+                deleteNode(node->right, temp->val);
             }
-            if(remVal > node->val){
-                deleteNode(node->right, remVal);
-            }
-            else {
-                if (node->left == nullptr || node->right == nullptr){
-                    AVLNode<T> *temp = node->left ? node->left : node->right;
-                    if (temp == nullptr){
-                        temp = node;
-                        node = nullptr;
-                    }
-                    else {
-                        node = temp;
-                        delete temp;
-                    }
-                }
-                else {
-                    AVLNode<T> *temp = findSmall(node->right);
-                    node->val = temp->val;
-                    deleteNode(node->right, temp->val);
-                }
-                
-            }
-        }
-       node->~AVLNode();
-        //Height Update
-        node->height = max(height(node->left), height(node->right)) + 1;
-        //Balance
-        //get balance
-        int balance = this->checkBalance(node->left, node->right);
-        //rotate as needed
-        if (balance > 1){
+       }
+       //Height Update
+       if (node){
+           node->height = max(height(node->left), height(node->right)) + 1;
+           //get balance
+            int balance = this->checkBalance(node->left, node->right);
+            //rotate as needed
+            if (balance > 1){
             //Left-Left
-            if (node->left != nullptr){
-                if (node->val < node->left->val){
+                if (node->left != nullptr){
+                    if (remVal > node->left->val){
                     node = rightRotate(node);
-                }
+                    }
                 //Left-Right
-                else if (node->val > node->left->val){
-                    node->left = leftRotate(node->left);
-                    node = rightRotate(node);
+                    else if (remVal < node->left->val){
+                        node->left = leftRotate(node->left);
+                        node = rightRotate(node);
+                    }
                 }
-            }
             //Right-Right
-            else if (node->right != nullptr){
-                if (node->val > node->right->val){
-                    node = leftRotate(node);
-                }
+                else if (node->right != nullptr){
+                    if (remVal < node->right->val){
+                        node = leftRotate(node);
+                    }
                 //Right-Left
-                else if (node->val < node->right->val){
-                    node->right = rightRotate(node->right);
-                    node = leftRotate(node);
+                    else if (remVal > node->right->val){
+                        node->right = rightRotate(node->right);
+                        node = leftRotate(node);
+                    }
                 }
-            }    
-        }
-        // if (!node) return false;
-        // if (node->val == remVal){
-        //     if (node->left == nullptr || node->right == nullptr){
-        //         AVLNode<T> *temp = node->left;
-        //         if (node->right) temp = node->right;
-        //         if (parent){
-        //             if (parent->left == node){
-        //                 parent->left = temp;
-        //             }
-        //             else {
-        //                 parent->right = temp;
-        //             }
-        //         }
-        //         else {
-        //             this->_root = temp;
-        //         }
-        //     }
-        //     else {
-        //         AVLNode<T> *vSub = node->right;
-        //         while (vSub->left){
-        //             vSub = vSub->left;
-        //         }
-        //         T temp = node->val;
-        //         node->val = vSub->val;
-        //         vSub->val = temp;
-        //         return deleteNode(node, node->right, temp);
-        //     }
-        //     delete node;
-
-        //     //Height Update
-        //     if (height(node->left) > height(node->right)) {
-        //         node->height = height(node->left) + 1;
-        //     }
-        //     if (height(node->right) > height(node->left)) {
-        //         node->height = height(node->right) + 1;
-        //     }
-        //     //Balance
+            
+            }
+       } 
         
-
-        //     return true;
-        // }
-        // return deleteNode(node, node->left, remVal) || deleteNode(node, node->right, remVal);
-
+        //return node;
     }
 
     bool search(AVLNode<T> *& node, const T & findVal){
