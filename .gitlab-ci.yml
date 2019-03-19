@@ -166,6 +166,26 @@ MA4-StringDups-base-tests:
         ASSIGNMENT_DIR: "MA4-StringDups"
 # END of MA4 - Hashing to find string duplicates project **********************#
 
+# Start of MA5 - Implementing Heap percolate up and down **********************#
+# MA5 is the heap project
+MA5-HeapPercolate-build:
+  extends: .build
+  variables:
+    ASSIGNMENT_DIR: "MA5-HeapPercolate"
+
+# Run the starter code tests
+MA5-HeapPercolate-starter-tests:
+    extends: .starter-tests
+    variables:
+        ASSIGNMENT_DIR: "MA5-HeapPercolate"
+
+# Run the base code tests
+MA5-HeapPercolate-base-tests:
+    extends: .base-tests
+    variables:
+        ASSIGNMENT_DIR: "MA5-HeapPercolate"
+# END of MA5 - Implementing Heap percolate up and down **********************#
+
 ###############################################################################
 #                           End of MA Build & Test
 ###############################################################################
@@ -187,6 +207,14 @@ HW2-PDF-Check-Test:
     variables:
         ASSIGNMENT_DIR: "HW2-Trees"
 # End HW2 Tests ***************************************************************#
+
+# Start HW3 - Hashing Heaps Sorting! **********************************************************#
+# Run a test to find the PDF of the homework
+HW3-PDF-Check-Test:
+    extends: .base-tests
+    variables:
+        ASSIGNMENT_DIR: "HW3-Hashing-Heaps-Sorting"
+# End HW3 Tests ***************************************************************#
 
 ###############################################################################
 #                           End of Homework Tests
