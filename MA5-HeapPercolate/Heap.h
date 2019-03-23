@@ -48,7 +48,28 @@ private:
 	 */
 	void percolateDown(long unsigned int index)
 	{
-
+		//Using the book, failed tests. Fix
+		long unsigned int child = index;
+		T temp = std::move(_items[index]);
+		for (; index * 2 <= _items.size(); index = child){
+			child = index * 2;
+			if (child != _items.size() && _items[child +1] < _items[child]){
+				++child;
+			}
+			if (_items[child] < temp){
+				_items[index] = std::move(_items[child]);
+			}
+			else {
+				break;
+			}
+		}
+		_items[index] = std::move(temp);
+		// _items[index] = std::move(_items[_items.size() - 1]);
+		// long unsigned int p = index;
+		// while (p <= _items.size() && _items[p] > _items[(p*2) + 1]){
+		// 	std::swap(_items[p], _items[(p*2) + 1]);
+		// 	p = p * 2 + 1;
+		// }
 	}
 
 
@@ -59,7 +80,20 @@ private:
 	 */
 	void percolateUp( long unsigned int current_position )
 	{
-
+		//Using Book Broke Lots of Stuff, Don't use. Fix
+		//Fixing Fixing, Down to two starter test fails
+		long unsigned int hole = current_position;
+		// T temp = _items[_items.size() - 1];
+		// _items[0] = std::move(temp);
+		// for(; temp < _items[hole/2]; hole /= 2){
+		// 	_items[hole] = std::move(_items[hole/2]);
+		// }
+		// _items[hole] = std::move(_items[0]);
+		//Works Better, still failing one Up base test and the Both test
+		while (hole != 0 && _items[hole/2] > _items[hole]){
+			std::swap(_items[hole], _items[hole/2]);
+			hole = hole/2;			
+		}
 	}
 
 /********************** End Microassigment zone *********************/
