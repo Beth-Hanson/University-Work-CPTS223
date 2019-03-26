@@ -13,7 +13,7 @@
 
 # Default Docker image is Alpine Linux's latest release
 #  Each job in the pipeline will run in a separate Alpine Linux environment
-image: alpine:latest
+image: alpine:3.8
 
 # Defining the two stages for this CI pipeline
 #   Stage 1 - build the software
@@ -238,3 +238,22 @@ PA1-AVL-base-tests:
     variables:
         ASSIGNMENT_DIR: "PA1-AVLTree"
 # End of PA1 - AVL Tree Implementation ***************************************#
+
+# Start PA2 - Hashtables implementation project ******************************#
+PA2-Hash-build:
+    extends: .build
+    variables:
+        ASSIGNMENT_DIR: "PA2-Hashtables"
+
+# Run the starter code tests
+PA2-Hash-starter-tests:
+    extends: .starter-tests
+    variables:
+        ASSIGNMENT_DIR: "PA2-Hashtables"
+
+# Run the base code tests
+PA2-Hash-base-tests:
+    extends: .base-tests
+    variables:
+        ASSIGNMENT_DIR: "PA2-Hashtables"
+# End of PA2 - Hashtables Implementation *************************************#
