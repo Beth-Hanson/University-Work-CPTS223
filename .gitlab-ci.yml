@@ -185,6 +185,27 @@ MA5-HeapPercolate-base-tests:
     variables:
         ASSIGNMENT_DIR: "MA5-HeapPercolate"
 # END of MA5 - Implementing Heap percolate up and down **********************#
+#
+# Start of MA6 - Implementing Dijkstra's Algorithm  *************************#
+# MA6 is the Dijkstra's graph path finding algorithm
+MA6-Dijkstra-build:
+  extends: .build
+  variables:
+    ASSIGNMENT_DIR: "MA6-Dijkstra"
+
+# Run the starter code tests
+MA6-Dijkstra-starter-tests:
+    extends: .starter-tests
+    variables:
+        ASSIGNMENT_DIR: "MA6-Dijkstra"
+
+# Run the base code tests
+MA6-Dijkstra-base-tests:
+    extends: .base-tests
+    variables:
+        ASSIGNMENT_DIR: "MA6-Dijkstra"
+# END of MA6 - Implementing Dijkstra's Algorithm ***************************#
+
 
 ###############################################################################
 #                           End of MA Build & Test
@@ -215,6 +236,14 @@ HW3-PDF-Check-Test:
     variables:
         ASSIGNMENT_DIR: "HW3-Hashing-Heaps-Sorting"
 # End HW3 Tests ***************************************************************#
+
+# Start HW4 - Graphs **********************************************************#
+# Run a test to find the PDF of the homework
+HW4-PDF-Check-Test:
+    extends: .base-tests
+    variables:
+        ASSIGNMENT_DIR: "HW4-Graphs"
+# End HW4 Tests ***************************************************************#
 
 ###############################################################################
 #                           End of Homework Tests
@@ -257,3 +286,23 @@ PA2-Hash-base-tests:
     variables:
         ASSIGNMENT_DIR: "PA2-Hashtables"
 # End of PA2 - Hashtables Implementation *************************************#
+
+# Start of PA3 - Implementing sorting algorithms ****************************#
+# PA3 is the sorting project
+PA3-Sorting-build:
+  extends: .build
+  variables:
+    ASSIGNMENT_DIR: "PA3-Sorting"
+
+# Run the starter code tests
+PA3-Sorting-starter-tests:
+    extends: .starter-tests
+    variables:
+        ASSIGNMENT_DIR: "PA3-Sorting"
+
+# Run the base code tests
+PA3-Sorting-base-tests:
+    extends: .base-tests
+    variables:
+        ASSIGNMENT_DIR: "PA3-Sorting"
+# END of PA3 - Implementing Sorting Algorithms ******************************#
