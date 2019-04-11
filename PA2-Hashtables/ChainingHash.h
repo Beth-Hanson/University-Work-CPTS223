@@ -29,17 +29,19 @@ template<typename K, typename V>
 class ChainingHash : public Hash<K,V> {
 private:
     int _count;
-    //vector<list<pair<K,V>>> * _table;
-    vector<list<V>> * _table;
+    vector<list<pair<K,V>>> * _table;
+    //vector<list<V>> * _table;
 
 public:
     ChainingHash(int n = 11) {
         _count = 0;
-        // pair<K,V> p;
+        //pair<K,V> p(0, 0);
+        list<pair<K,V>> l;
         // p.first = 0;
         // p.second = 0;
-        // _table = new vector<list<pair<K,V>>>(n, list<pair<K,V>>(p));
-        _table = new vector<list<V>>(n, list<V>(0));
+        _table = new vector<list<pair<K,V>>>;
+        _table->resize(n, l);
+        //_table = new vector<list<V>>(n, list<V>(0));
     }
 
     ~ChainingHash() {
@@ -61,10 +63,13 @@ public:
     }
 
     V& at(const K& key) {
-        if (_table->at(hash(key)).front() == 0) { //.first != key) {
-            throw std::out_of_range("Key not in hash");
+        for (auto it = _table->at(hash(key)).begin(); it != _table->at(hash(key)).end(); it++){
+            if(it->first == key) {
+                return it->second;
+            }
         }
-        return _table->at(hash(key)).front(); //.second;
+        throw std::out_of_range("Key not in hash");
+        
     }
 
     V& operator[](const K& key) {
@@ -72,6 +77,13 @@ public:
     }
 
     int count(const K& key) {
+        int count = 0;
+        for (auto it = _table->at(hash(key)).begin(); it != _table->at(hash(key)).end(); it++){
+            if(it->first == key) {
+                ++count;
+            }
+        }
+        return count;
     }
 
     void emplace(K key, V value) {
@@ -92,26 +104,28 @@ public:
         // else {
         //     _table->at(hashKey).push_back(pair.second); 
         // }
-        if(_table->at(hashKey).front() == 0) { //.first == 0){
-            ++_count;
-        }
-        _table->at(hashKey).push_front(pair.second); 
+        this->erase(pair.first);
+        ++_count;
+        _table->at(hashKey).push_front(pair); 
 
         //Concept: _table[hash(pair.first)] = pair.second;
         //check for rehash
     }
 
     void erase(const K& key) {
-        int hashKey = hash(key);
-        _table->at(hashKey).erase(_table->at(hashKey).begin(), _table->at(hashKey).end());
-        _count--;
+        for (auto it = _table->at(hash(key)).begin(); it != _table->at(hash(key)).end(); it++){
+            if(it->first == key) {
+                it = _table->at(hash(key)).erase(it);
+                _count--;             
+            }
+        }
     }
 
     void clear() {
         int tableSize = _table->capacity();
         delete _table;
         //_table = new vector<list<pair<K,V>>>(tableSize);
-        _table = new vector<list<V>>(tableSize);
+        _table = new vector<list<pair<K,V>>>(tableSize);
         _count = 0;
     }
 
@@ -138,11 +152,30 @@ public:
     }
 
     void rehash() {
-        _table->resize(findNextPrime(_table->capacity()));
+        list<pair<K,V>> l;
+        vector<list<pair<K,V>>> v = std::move(*_table);
+        _table->resize(findNextPrime(_table->capacity()), l);
+        for (int i = 0; i < v.capacity(); i++){
+            while(v[i].empty() == false){
+                _count--;
+                insert(v[i].front());
+                v[i].pop_front();
+            }
+        }
     }
 
     void rehash(int n) {
-        _table->resize(findNextPrime(n));
+        //_table->resize(findNextPrime(n));
+        list<pair<K,V>> l;
+        vector<list<pair<K,V>>> v = std::move(*_table);
+        _table->resize(findNextPrime(n), l);
+        for (int i = 0; i < v.capacity(); i++){
+            while(v[i].empty() == false){
+                _count--;
+                insert(v[i].front());
+                v[i].pop_front();
+            }
+        }
     }
 
 
