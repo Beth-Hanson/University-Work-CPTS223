@@ -57,7 +57,15 @@ public:
     }
 
     int count(const K& key) {
-        
+        int count = 0;
+        int i = hash(key); 
+        while (i < _table.capacity()){
+            if(_table[i].first.first == key) {
+                ++count;
+            }
+            i = probe(i);
+        }
+        return count;
     }
 
     void emplace(K key, V value) {
@@ -69,15 +77,33 @@ public:
         if (load_factor() > 0.5){
             rehash();
         }
-        _table[hash(pair.first)].first = pair;
-        _table[hash(pair.first)].second = EntryState::VALID;
-        ++_size;
+        int hashKey = hash(pair.first);
+        while (_table[hashKey].second == EntryState::VALID) {
+            if (_table[hashKey].first.first == pair.first){ 
+                _table[hashKey].first.second = pair.second;
+                break;
+            }
+            hashKey = probe(hashKey);
+        }
+        if (_table[hashKey].first.first != pair.first){
+            _table[hashKey].first = pair;
+            _table[hashKey].second = EntryState::VALID;
+            ++_size;
+        }
+        
     }
 
     void erase(const K& key) {
-        if (_table[hash(key)].second != EntryState::EMPTY) {
-            _table[hash(key)].second = EntryState::DELETED;
-            _size--;
+        int hashKey = hash(key);
+        if (_table[hashKey].second != EntryState::EMPTY) {
+            if (_table[hashKey].first.first != key){
+                hashKey = probe(hashKey);
+            }
+            if (_table[hashKey].first.first == key){
+                _table[hashKey].second = EntryState::DELETED;
+                _size--;
+            }
+            
         }
     }
 
@@ -94,10 +120,20 @@ public:
     }
 
     int bucket_size(int n) {
-        
+        if (_table[n].second != EntryState::VALID){
+            return 0;
+        }
+        else {
+            return 1;
+        }
     }
 
     int bucket(const K& key) {
+        int hashKey = hash(key);
+        while (_table[hashKey].first.first != key){
+            hashKey = probe(hashKey);
+        }
+        return hashKey;
     }
 
     float load_factor() {
@@ -105,7 +141,14 @@ public:
     }
 
     void rehash() {
-        _table.resize(findNextPrime(_table.capacity()));
+        // vector<pair<pair<K,V>, EntryState>> v = std::move(_table);
+        // _table.resize(findNextPrime(_table.capacity()));
+        // _size = 0;
+        // for (int i = 0; i < v.capacity(); i++){
+        //     //insert(v[i].first);
+        //     insert(std::move(v[i].first));
+        // }
+        //_table.resize(findNextPrime(_table.capacity()));
     }
 
     void rehash(int n) {
@@ -136,13 +179,7 @@ private:
     }
 
     int hash(const K& key) {
-        int hashKey = key % _table.capacity();
-        if(_table[hashKey].second != EntryState::EMPTY){
-            return probe(hashKey);
-        }
-        else {
-            return hashKey;
-        }
+        return (key % _table.capacity());
     }
     int probe(int i){
         return ((i+1) % _table.capacity());
