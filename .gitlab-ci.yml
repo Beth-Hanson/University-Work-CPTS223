@@ -206,6 +206,25 @@ MA6-Dijkstra-base-tests:
         ASSIGNMENT_DIR: "MA6-Dijkstra"
 # END of MA6 - Implementing Dijkstra's Algorithm ***************************#
 
+# Start of EC1 - Implementing Topological Sort Algorithm  ******************#
+# Extra Credit 1 is the Topologial sort dependency finding algorithm
+EC1-TopoSort-build:
+  extends: .build
+  variables:
+    ASSIGNMENT_DIR: "EC1-TopoSort"
+
+# Run the starter code tests
+EC1-TopoSort-starter-tests:
+    extends: .starter-tests
+    variables:
+        ASSIGNMENT_DIR: "EC1-TopoSort"
+
+# Run the base code tests
+EC1-TopoSort-base-tests:
+    extends: .base-tests
+    variables:
+        ASSIGNMENT_DIR: "EC1-TopoSort"
+# End of EC1 - Implementing Topological Sort Algorithm  ********************#
 
 ###############################################################################
 #                           End of MA Build & Test
