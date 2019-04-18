@@ -242,7 +242,51 @@ public:
 		//  You'll also need to look at this class' approach to storing vertices in an unordered_map
 
 		// MA TODO: Insert Dijkstra's algorithm here:
+		starting_vertex->set_path_weight(0);
+		starting_vertex->get_path_ptr()->unset_known();
+		dijkstra_queue.push(starting_vertex);
+		//auto dist = starting_vertex;
+		// DijkstraVertex* prev = dist->get_path_ptr();
+		// vector<int> v = this->get_all_vertex_ids();
+		// for (int i = 0; i < vertices.bucket_count(); i++){
+		// 	dist = vertices[v[i]];
+		// 	prev = dist->get_path_ptr();
+		// 	if(v[i] != starting_nodeId){
+		//  		dist->unset_path_weight();
+		// 		prev->unset_known();
+		//  	}
+		// 	dijkstra_queue.push(dist);
+		// }
 
+		while (!dijkstra_queue.empty()){
+			DijkstraVertex* dist = dijkstra_queue.top();
+			dijkstra_queue.pop();
+			//unordered_map<DijkstraVertex*, Edge*> edge = dist->getEdges();
+			//for (int i =0; i < dist->getEdges().size(); i++){
+			for (auto it: dist->getEdges()){			
+				Edge* edge = it.second;
+				//Edge* edge = dist->getEdges().at(dist->get_path_ptr());
+				double alt = edge->weight + dist->get_path_weight();
+				//dist[u] => edge
+				if (alt < edge->dijkstra_vertex->get_path_weight()){
+					edge->dijkstra_vertex->set_path_weight(alt);
+					edge->dijkstra_vertex->set_known();
+					edge->dijkstra_vertex->set_path_ptr(dist);
+					dijkstra_queue.push(edge->dijkstra_vertex);
+				}
+			}
+		}
+		//Bit of Dijkstra's Algorithm Pseudo code I don't think I really ever figured out 
+		// 14     while Q is not empty:                      // The main loop
+		// 15         u ← Q.extract_min()                    // Remove and return best vertex
+		// 16         for each neighbor v of u:              // only v that are still in Q
+		// 17             alt ← dist[u] + length(u, v) 
+		// 18             if alt < dist[v]
+		// 19                 dist[v] ← alt
+		// 20                 prev[v] ← u
+		// 21                 Q.decrease_priority(v, alt)
+		// 22
+		// 23     return dist, prev
 
 
 
