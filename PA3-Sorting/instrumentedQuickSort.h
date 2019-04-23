@@ -16,6 +16,45 @@
 #include "main.h"   // For SortStats struct definiton
 
 using namespace std;
+int part(vector<int> &a, SortStats &stats, int low, int high){
+	//Lets Try Lomuto!
+	int pivot = a[high];
+	int i = low -1;
+	int j;
+	for (j = low; j <= high -1; j++){
+		if (++stats.compares && a[j] <= pivot){
+			i++;
+			swap(a[i], a[j]);
+			++stats.moves;
+		}
+	}
+	swap(a[i+1], a[high]);
+	++stats.moves;
+	return (i+1);
+	// algorithm partition(A, lo, hi) is
+    // pivot := A[hi]
+    // i := lo
+    // for j := lo to hi - 1 do
+    //     if A[j] < pivot then
+    //         swap A[i] with A[j]
+    //         i := i + 1
+    // swap A[i] with A[hi]
+    // return i
+}
+
+void quickSort(vector<int> &a, SortStats &stats, int low, int high){
+	//Lets try Lomuto!
+	if (low < high){
+		int p = part(a, stats, low, high);
+		quickSort(a, stats, low, p-1);
+		quickSort(a, stats, p+1, high);
+	}
+	// algorithm quicksort(A, lo, hi) is
+    // if lo < hi then
+    //     p := partition(A, lo, hi)
+    //     quicksort(A, lo, p - 1)
+    //     quicksort(A, p + 1, hi)
+}
 
 void instrumentedQuickSort( vector<int> & a, SortStats & stats )
 {
@@ -29,6 +68,10 @@ void instrumentedQuickSort( vector<int> & a, SortStats & stats )
 	// NOTE: you must update stats with comparisons and moves as your algorithm runs
 	//  The best example of updating the stats is available in the file:
 	//  instrumentedBubbleSort.h
+
+	quickSort(a, stats, 0, a.size()-1);
+
+	
 
 	// End sorting algorithm
 
