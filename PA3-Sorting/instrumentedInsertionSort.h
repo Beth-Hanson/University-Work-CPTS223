@@ -29,6 +29,25 @@ void instrumentedInsertionSort( vector<int> & a, SortStats & stats )
 	//  The best example of updating the stats is available in the file:
 	//  instrumentedBubbleSort.h
 
+	//Using your stuff to help get started. 
+	bool swap = true;
+	while(swap){
+		swap = false;
+		int j = 0;
+		for (int i = 1; i < a.size(); i++){
+			auto temp = std::move(a[i]);
+			for (j = i; j > 0 && temp < a[j - 1]; j--){
+				if ( ++stats.compares ){
+					stats.moves++;
+					a[j] = std::move(a[j-1]);
+					swap = true;
+				}
+			}
+			a[j] = std::move(temp);
+		}
+	}
+
+
 	// End sorting algorithm
 
 
